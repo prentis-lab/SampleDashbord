@@ -75,7 +75,7 @@ aws lambda update-function-configuration \
   --function-name sample-backend \
   --region ap-southeast-2 \
   --environment "Variables={
-    DATABASE_URL=postgresql://bairuadmin:YourStrongPassword123!@<db_endpoint>/sample,
+    DATABASE_URL=postgresql://sampleAdmin:YourStrongPassword123!@<db_endpoint>/sample,
     SECRET_KEY=your-random-jwt-secret,
     SESSION_SECRET=your-random-session-secret,
     FRONTEND_URL=https://<cloudfront_url>
@@ -124,7 +124,7 @@ aws ec2 authorize-security-group-ingress \
   --cidr $MY_IP/32 --region ap-southeast-2
 
 # Set admin flag
-psql "postgresql://bairuadmin:YourStrongPassword123!@<db_endpoint>/sample" \
+psql "postgresql://sampleAdmin:YourStrongPassword123!@<db_endpoint>/sample" \
   -c "UPDATE users SET is_admin = true WHERE email = 'admin@example.com';"
 
 # Close
