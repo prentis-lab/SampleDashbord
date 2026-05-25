@@ -1,4 +1,4 @@
-# Bairu Lab — AWS Deployment Guide
+# Sample Dashbord App — AWS Deployment Guide
 
 A full-stack genomic sample management app: **React** frontend + **FastAPI** backend, deployed serverlessly on AWS.
 
