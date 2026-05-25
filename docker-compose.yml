@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend
+    container_name: sequencing-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+      - db_data:/app/db
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=sqlite:////app/db/test.db
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend/my-app
+    container_name: sequencing-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  db_data:
