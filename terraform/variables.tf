@@ -5,12 +5,12 @@ variable "aws_region" {
 
 variable "app_name" {
   description = "Application name"
-  default     = "bairu-lab"
+  default     = "dashbord"
 }
 
 variable "db_username" {
   description = "Database username"
-  default     = "bairuadmin"
+  default     = "dashbordAmin"
 }
 
 variable "db_password" {
