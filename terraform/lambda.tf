@@ -54,7 +54,7 @@ resource "aws_lambda_function" "backend" {
 
   environment {
     variables = {
-      DATABASE_URL = "postgresql://${var.db_username}:${var.db_password}@${aws_db_instance.main.endpoint}/bairulab"
+      DATABASE_URL = "postgresql://${var.db_username}:${var.db_password}@${aws_db_instance.main.endpoint}/sample"
       SESSION_SECRET = var.session_secret
       FRONTEND_URL   = "https://${aws_cloudfront_distribution.frontend.domain_name}"
     }

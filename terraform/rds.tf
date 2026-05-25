@@ -12,7 +12,7 @@ resource "aws_db_instance" "main" {
   allocated_storage = 20
   storage_type      = "gp2"
 
-  db_name  = "bairulab"
+  db_name  = "sample"
   username = var.db_username
   password = var.db_password
 
