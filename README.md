@@ -51,9 +51,9 @@ Takes ~10–15 minutes. Copy the output values — you'll need them in the next 
 ```
 api_gateway_url    = "https://xxxx.execute-api.ap-southeast-2.amazonaws.com/prod"
 cloudfront_url     = "https://xxxx.cloudfront.net"
-s3_frontend_bucket = "bairu-lab-frontend-xxxx"
-lambda_code_bucket = "bairu-lab-lambda-xxxx"
-db_endpoint        = "bairu-lab-db.xxxx.ap-southeast-2.rds.amazonaws.com:5432"
+s3_frontend_bucket = "sample-frontend-xxxx"
+lambda_code_bucket = "sample-lambda-xxxx"
+db_endpoint        = "sample-db.xxxx.ap-southeast-2.rds.amazonaws.com:5432"
 ```
 
 ---
@@ -72,7 +72,7 @@ Then set the Lambda environment variables (replace placeholders with your Terraf
 
 ```bash
 aws lambda update-function-configuration \
-  --function-name bairu-lab-backend \
+  --function-name sample-backend \
   --region ap-southeast-2 \
   --environment "Variables={
     DATABASE_URL=postgresql://bairuadmin:YourStrongPassword123!@<db_endpoint>/sample,
@@ -175,6 +175,6 @@ terraform destroy -var-file="terraform.tfvars"
 | Problem | Fix |
 |---|---|
 | Lambda `GLIBC` / `pydantic_core` error | Ensure Docker is running; `deploy-backend.sh` must build with `--platform linux/amd64` |
-| `Internal server error` on API | `aws logs tail /aws/lambda/bairu-lab-backend --region ap-southeast-2` |
+| `Internal server error` on API | `aws logs tail /aws/lambda/sample-backend --region ap-southeast-2` |
 | CORS error in browser | Check `FRONTEND_URL` in Lambda env exactly matches your CloudFront URL |
 | Frontend not updating | Invalidate CloudFront cache (see Redeploying section) |

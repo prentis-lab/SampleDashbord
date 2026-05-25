@@ -19,12 +19,12 @@ cp -r backend/app lambda_build/
 cd lambda_build && zip -r ../lambda_package.zip . && cd ..
 
 echo "Uploading to S3..."
-aws s3 cp lambda_package.zip s3://bairu-lab-lambda-271918ab/lambda_package.zip
+aws s3 cp lambda_package.zip s3://sample-lambda-271918ab/lambda_package.zip
 
 echo "Updating Lambda function..."
 aws lambda update-function-code \
-  --function-name bairu-lab-backend \
-  --s3-bucket bairu-lab-lambda-271918ab \
+  --function-name sample-backend \
+  --s3-bucket sample-lambda-271918ab \
   --s3-key lambda_package.zip \
   --region ap-southeast-2
 
