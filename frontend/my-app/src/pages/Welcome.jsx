@@ -33,7 +33,7 @@ export default function Welcome() {
           margin: "0 0 8px",
           letterSpacing: "-0.5px"
         }}>
-          Bairu Lab
+        	Prentis Lab
         </h1>
         <p style={{
           fontSize: 14, color: "rgba(255,255,255,0.5)",
@@ -59,7 +59,7 @@ export default function Welcome() {
           margin: "0 0 12px",
           padding: "0 20px"
         }}>
-          This platform is used by the Bairu Lab to collect, manage, and track genomic sequencing sample data and associated information.
+          This platform is used by the Prentis Lab to collect, manage, and track genomic sequencing sample data and associated information.
         </p>
         <p style={{
           fontSize: 14,

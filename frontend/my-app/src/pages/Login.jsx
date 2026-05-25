@@ -47,7 +47,7 @@ export default function Login() {
           <h2 style={{ margin: "12px 0 4px", fontSize: 22, fontWeight: 700, color: "#1a1a2e" }}>
             {isRegister ? "Create Account" : "Sign In"}
           </h2>
-          <p style={{ margin: 0, fontSize: 13, color: "#888" }}>Bairu Lab Sample Management</p>
+          <p style={{ margin: 0, fontSize: 13, color: "#888" }}>Prentis Lab Sample Management</p>
         </div>
 
         <form onSubmit={handleSubmit}>
