@@ -25,14 +25,21 @@ Browser
 
 ---
 
-## Step 1 — Generate secrets
+## Step 1 — Create secrets file
+
+Create `terraform/terraform.tfvars` and set your own values:
 
 ```bash
-./generate-secrets.sh
+cat > terraform/terraform.tfvars <<EOF
+db_password    = "YourStrongPassword"
+jwt_secret     = "YourJwtSecret"
+session_secret = "YourSessionSecret"
+EOF
 ```
 
-This creates `terraform/terraform.tfvars` with a random `db_password`, `jwt_secret`, and `session_secret`.
-The file is gitignored. **Copy the printed values into a password manager** before closing the terminal.
+The file is gitignored. **Store these values in a password manager** — you will need them if you redeploy.
+
+> **Development / debugging only:** run `./generate-secrets.sh` to have the values generated for you automatically.
 
 ---
 
