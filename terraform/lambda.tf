@@ -27,6 +27,29 @@ resource "aws_s3_bucket" "lambda_code" {
   bucket = "${var.app_name}-lambda-${random_id.suffix.hex}"
 }
 
+# Placeholder zip uploaded on first apply so the Lambda resource can be created.
+# deploy.sh overwrites this with the real package; ignore_changes prevents
+# Terraform from reverting it on subsequent applies.
+data "archive_file" "lambda_placeholder" {
+  type        = "zip"
+  output_path = "${path.module}/lambda_placeholder.zip"
+  source {
+    filename = "handler.py"
+    content  = "def handler(event, context):\n    return {\"statusCode\": 503, \"body\": \"Not yet deployed\"}\n"
+  }
+}
+
+resource "aws_s3_object" "lambda_placeholder" {
+  bucket = aws_s3_bucket.lambda_code.id
+  key    = "lambda_package.zip"
+  source = data.archive_file.lambda_placeholder.output_path
+  etag   = data.archive_file.lambda_placeholder.output_base64sha256
+
+  lifecycle {
+    ignore_changes = [source, etag]
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "lambda_code" {
   bucket                  = aws_s3_bucket.lambda_code.id
   block_public_acls       = true
@@ -62,5 +85,5 @@ resource "aws_lambda_function" "backend" {
 
   tags = { Name = "${var.app_name}-backend" }
 
-  depends_on = [aws_db_instance.main]
+  depends_on = [aws_db_instance.main, aws_s3_object.lambda_placeholder]
 }
