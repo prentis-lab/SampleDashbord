@@ -1,165 +1,110 @@
-# Sample Dashbord App — AWS Deployment Guide
+# Sample Dashboard — AWS Deployment Guide
 
 A full-stack genomic sample management app: **React** frontend + **FastAPI** backend, deployed serverlessly on AWS.
 
----
-
-## Architecture
-
 ```
-  Browser
-    │
-    ├── (static files) ──► CloudFront ──► S3 (React build)
-    │
-    └── (API calls) ──────► API Gateway ──► Lambda (FastAPI)
-                                                    │
-                                              RDS PostgreSQL
-                                           (private VPC subnet)
+Browser
+  ├── (static files) ──► CloudFront ──► S3 (React build)
+  └── (API calls)    ──► API Gateway ──► Lambda (FastAPI)
+                                               │
+                                         RDS PostgreSQL
+                                      (private VPC subnet)
 ```
 
 ---
 
 ## Prerequisites
 
-| Tool | How to install |
+| Tool | Install |
 |---|---|
-| AWS CLI | `brew install awscli` then run `aws configure` |
+| AWS CLI | `brew install awscli` then `aws configure` |
 | Terraform | `brew install hashicorp/tap/terraform` |
-| Docker Desktop | [docker.com](https://www.docker.com/products/docker-desktop/) — must be **running** when deploying the backend |
+| Docker Desktop | [docker.com](https://www.docker.com/products/docker-desktop/) — must be **running** during deployment |
 | Node.js 18+ | `brew install node` |
+| psql | `brew install libpq && brew link --force libpq` |
 
 ---
 
-## Step 1 — Create AWS Infrastructure
+## Step 1 — Generate secrets
+
+```bash
+./generate-secrets.sh
+```
+
+This creates `terraform/terraform.tfvars` with a random `db_password`, `jwt_secret`, and `session_secret`.
+The file is gitignored. **Copy the printed values into a password manager** before closing the terminal.
+
+---
+
+## Step 2 — Create AWS infrastructure
 
 ```bash
 cd terraform
-
-# Create secrets file (gitignored)
-cat > terraform.tfvars <<EOF
-db_password    = "YourStrongPassword123!"
-jwt_secret     = "your-random-jwt-secret"
-session_secret = "your-random-session-secret"
-EOF
-
 terraform init
+terraform apply -var-file="terraform.tfvars"
+cd ..
+```
+
+Takes ~10–15 minutes. Terraform provisions the VPC, RDS, Lambda, API Gateway, S3, and CloudFront.
+
+> **Before continuing:** open `terraform/rds.tf` and set `publicly_accessible = true`, then run
+> `terraform apply -var-file="terraform.tfvars"` again. This is required for the admin setup in
+> the next step. You can set it back to `false` afterwards.
+
+---
+
+## Step 3 — Deploy backend, frontend, and create admin account
+
+```bash
+./deploy.sh
+```
+
+This script does everything in one run:
+
+| What | How |
+|---|---|
+| Build Lambda package | Docker (linux/amd64) |
+| Upload & update Lambda code | `aws lambda update-function-code` |
+| Set Lambda env vars | `aws lambda update-function-configuration` (reads secrets from `terraform.tfvars`, URLs from `terraform output`) |
+| Build frontend | `npm run build` inside `frontend/my-app` |
+| Upload frontend | `aws s3 sync` to the S3 bucket |
+| Register admin user | `POST /auth/register` |
+| Grant admin flag | Opens RDS port 5432 to your IP → `psql UPDATE` → closes port |
+
+The script will prompt for an admin email and password at the admin creation step.
+
+---
+
+## Redeploying after changes
+
+**Backend code changed:**
+```bash
+./deploy-backend.sh
+```
+
+**Frontend code changed:**
+```bash
+cd frontend/my-app
+npm run build
+aws s3 sync dist/ s3://$(terraform -chdir=./terraform output -raw s3_frontend_bucket) --delete
+```
+
+**Infrastructure changed:**
+```bash
+cd terraform
 terraform apply -var-file="terraform.tfvars"
 ```
 
-Takes ~10–15 minutes. Copy the output values — you'll need them in the next steps:
-
-```
-api_gateway_url    = "https://xxxx.execute-api.ap-southeast-2.amazonaws.com/prod"
-cloudfront_url     = "https://xxxx.cloudfront.net"
-s3_frontend_bucket = "sample-frontend-xxxx"
-lambda_code_bucket = "sample-lambda-xxxx"
-db_endpoint        = "sample-db.xxxx.ap-southeast-2.rds.amazonaws.com:5432"
-```
-
----
-
-## Step 2 — Deploy the Backend
-
-> Docker must be running. The build uses a Linux container to match Lambda's runtime.
-
-From the repo root:
-
-```bash
-./deploy-backend.sh
-```
-
-Then set the Lambda environment variables (replace placeholders with your Terraform outputs):
-
-```bash
-aws lambda update-function-configuration \
-  --function-name sample-backend \
-  --region ap-southeast-2 \
-  --environment "Variables={
-    DATABASE_URL=postgresql://sampleAdmin:YourStrongPassword123!@<db_endpoint>/sample,
-    SECRET_KEY=your-random-jwt-secret,
-    SESSION_SECRET=your-random-session-secret,
-    FRONTEND_URL=https://<cloudfront_url>
-  }"
-```
-
----
-
-## Step 3 — Deploy the Frontend
-
-```bash
-cd frontend/my-app
-
-# Point the app at the API Gateway
-echo "VITE_API_URL=https://<api_gateway_url>" > .env.production
-
-npm install
-npm run build
-
-# Upload to S3
-aws s3 sync dist/ s3://<s3_frontend_bucket> --delete
-```
-
-The app is now live at your CloudFront URL.
-
----
-
-## Step 4 — Create the Admin Account
-
-Register a user via the API:
-
-```bash
-curl -X POST https://<api_gateway_url>/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@example.com","password":"ChangeMe123!"}'
-```
-
-Grant admin access — temporarily open RDS to your IP, update the flag, then close it:
-
-```bash
-MY_IP=$(curl -s ifconfig.me)
-
-# Open
-aws ec2 authorize-security-group-ingress \
-  --group-id <rds_sg_id> --protocol tcp --port 5432 \
-  --cidr $MY_IP/32 --region ap-southeast-2
-
-# Set admin flag
-psql "postgresql://sampleAdmin:YourStrongPassword123!@<db_endpoint>/sample" \
-  -c "UPDATE users SET is_admin = true WHERE email = 'admin@example.com';"
-
-# Close
-aws ec2 revoke-security-group-ingress \
-  --group-id <rds_sg_id> --protocol tcp --port 5432 \
-  --cidr $MY_IP/32 --region ap-southeast-2
-```
-
----
-
-## Redeploying After Changes
-
-```bash
-# Backend code changed
-./deploy-backend.sh
-
-# Frontend code changed
-./deploy-frontend.sh
-
-# Infrastructure changed
-cd terraform && terraform apply -var-file="terraform.tfvars"
-```
-
 If the frontend looks stale after a redeploy, invalidate the CloudFront cache:
-
 ```bash
 aws cloudfront create-invalidation \
-  --distribution-id <cf_distribution_id> --paths "/*"
+  --distribution-id $(terraform -chdir=./terraform output -raw cloudfront_distribution_id) \
+  --paths "/*"
 ```
 
 ---
 
-## Tear Down
-
-To delete everything and stop all AWS charges:
+## Tear down
 
 ```bash
 cd terraform
@@ -168,13 +113,17 @@ terraform destroy -var-file="terraform.tfvars"
 
 > **Warning:** This permanently deletes the database and all data. Back up first.
 
+After destroy, your local `terraform/terraform.tfvars` and `terraform/terraform.tfstate` still contain
+the secrets. Delete them when you no longer need them.
+
 ---
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| Lambda `GLIBC` / `pydantic_core` error | Ensure Docker is running; `deploy-backend.sh` must build with `--platform linux/amd64` |
-| `Internal server error` on API | `aws logs tail /aws/lambda/sample-backend --region ap-southeast-2` |
-| CORS error in browser | Check `FRONTEND_URL` in Lambda env exactly matches your CloudFront URL |
+| Lambda `GLIBC` / `pydantic_core` error | Ensure Docker is running; the build requires `--platform linux/amd64` |
+| `Internal server error` on API | `aws logs tail /aws/lambda/dashbord-backend --region ap-southeast-2` |
+| CORS error in browser | Check `FRONTEND_URL` in Lambda env matches the CloudFront URL exactly |
 | Frontend not updating | Invalidate CloudFront cache (see Redeploying section) |
+| `psql: could not connect` in deploy.sh | Set `publicly_accessible = true` in `terraform/rds.tf` and re-apply |
