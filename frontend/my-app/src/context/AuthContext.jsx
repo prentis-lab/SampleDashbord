@@ -23,6 +23,11 @@ export function AuthProvider({ children }) {
     if (!token) return
     API.post("/admin/sessions/heartbeat", {}, {
       headers: { Authorization: `Bearer ${token}` }
+    }).then((res) => {
+      if (res.data?.access_token) {
+        setStoredToken(res.data.access_token, isAdmin.current)
+        API.defaults.headers.common["Authorization"] = `Bearer ${res.data.access_token}`
+      }
     }).catch(() => {})
   }
 

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models import User, Sample, SessionLog
-from app.core.security import hash_password, decode_access_token
+from app.core.security import hash_password, decode_access_token, create_access_token
 from app.core.dependencies import get_db, get_current_admin, get_current_user
 from pydantic import BaseModel, EmailStr
 from typing import Optional
@@ -48,6 +48,15 @@ def create_user(body: CreateUserRequest, db: Session = Depends(get_db), _: User 
     db.add(user)
     db.commit()
     return {"message": "User created"}
+
+@router.post("/users/{user_id}/approve")
+def approve_user(user_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.is_active = True
+    db.commit()
+    return {"message": "User approved"}
 
 @router.delete("/users/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
@@ -119,7 +128,11 @@ def heartbeat(request: Request, db: Session = Depends(get_db), current_user: Use
 
     log.last_seen = now
     db.commit()
-    return {"ok": True}
+
+    payload = {"sub": str(current_user.id)}
+    if current_user.is_admin:
+        payload["is_admin"] = True
+    return {"ok": True, "access_token": create_access_token(payload)}
 
 @router.get("/sessions/active")
 def get_active_sessions(request: Request, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):

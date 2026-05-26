@@ -78,12 +78,21 @@ export default function AdminUsers() {
       .catch(err => setUserMsg("Error: " + (err.response?.data?.detail || "Failed")))
   }
 
+  const approveUser = (id) => {
+    API.post(`/admin/users/${id}/approve`)
+      .then(() => fetchUsers())
+      .catch(err => alert(err.response?.data?.detail || "Failed to approve"))
+  }
+
   const removeUser = (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return
     API.delete(`/admin/users/${id}`)
       .then(() => fetchUsers())
       .catch(err => alert(err.response?.data?.detail || "Failed to delete"))
   }
+
+  const pendingUsers = users.filter(u => !u.is_active)
+  const activeUsers  = users.filter(u => u.is_active)
 
   const tabs = [["sessions", "🟢 Online Users"], ["users", "👥 Users"]]
 
@@ -200,24 +209,53 @@ export default function AdminUsers() {
           </div>
           {userMsg && <p style={{ color: userMsg.startsWith("✓") ? "green" : "red", fontSize: 13 }}>{userMsg}</p>}
 
-          <h3 style={{ marginTop: 24 }}>All Users</h3>
+          {pendingUsers.length > 0 && (
+            <>
+              <h3 style={{ marginTop: 24, color: "#e67e22" }}>⏳ Pending Approval ({pendingUsers.length})</h3>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, marginBottom: 24 }}>
+                <thead>
+                  <tr style={{ background: "#fef9e7" }}>
+                    <th style={{ padding: "8px 12px", textAlign: "left" }}>ID</th>
+                    <th style={{ padding: "8px 12px", textAlign: "left" }}>Email</th>
+                    <th style={{ padding: "8px 12px", textAlign: "left" }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingUsers.map(u => (
+                    <tr key={u.id} style={{ borderBottom: "1px solid #fdebd0" }}>
+                      <td style={{ padding: "8px 12px" }}>{u.id}</td>
+                      <td style={{ padding: "8px 12px" }}>{u.email}</td>
+                      <td style={{ padding: "8px 12px", display: "flex", gap: 8 }}>
+                        <button onClick={() => approveUser(u.id)} style={{ padding: "4px 12px", background: "#27ae60", color: "white", border: "none", borderRadius: 3, cursor: "pointer", fontSize: 12 }}>
+                          Approve
+                        </button>
+                        <button onClick={() => removeUser(u.id)} style={{ padding: "4px 12px", background: "#e74c3c", color: "white", border: "none", borderRadius: 3, cursor: "pointer", fontSize: 12 }}>
+                          Reject
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+
+          <h3 style={{ marginTop: 24 }}>Active Users ({activeUsers.length})</h3>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
             <thead>
               <tr style={{ background: "#f0f0f0" }}>
                 <th style={{ padding: "8px 12px", textAlign: "left" }}>ID</th>
                 <th style={{ padding: "8px 12px", textAlign: "left" }}>Email</th>
                 <th style={{ padding: "8px 12px", textAlign: "left" }}>Admin</th>
-                <th style={{ padding: "8px 12px", textAlign: "left" }}>Enabled</th>
                 <th style={{ padding: "8px 12px", textAlign: "left" }}>Action</th>
               </tr>
             </thead>
             <tbody>
-              {users.map(u => (
+              {activeUsers.map(u => (
                 <tr key={u.id} style={{ borderBottom: "1px solid #eee" }}>
                   <td style={{ padding: "8px 12px" }}>{u.id}</td>
                   <td style={{ padding: "8px 12px" }}>{u.email}</td>
                   <td style={{ padding: "8px 12px" }}>{u.is_admin ? "✅" : "—"}</td>
-                  <td style={{ padding: "8px 12px" }}>{u.is_active ? "✅" : "❌"}</td>
                   <td style={{ padding: "8px 12px" }}>
                     <button onClick={() => removeUser(u.id)} style={{ padding: "4px 12px", background: "#e74c3c", color: "white", border: "none", borderRadius: 3, cursor: "pointer", fontSize: 12 }}>
                       Remove

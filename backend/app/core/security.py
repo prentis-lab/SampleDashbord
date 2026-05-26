@@ -1,9 +1,9 @@
-#Handles password hashing and JWT creation/verification.
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+import os
 
-SECRET_KEY = "your-secret-key-change-this"   # move to .env in production
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-secret-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 

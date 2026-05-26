@@ -77,6 +77,7 @@ docker run --rm \
   --quiet
 
 cp -r "$SCRIPT_DIR/backend/app" "$SCRIPT_DIR/lambda_build/"
+cp -r "$SCRIPT_DIR/backend/data" "$SCRIPT_DIR/lambda_build/"
 (cd "$SCRIPT_DIR/lambda_build" && zip -r "$SCRIPT_DIR/lambda_package.zip" . -q)
 rm -rf "$SCRIPT_DIR/lambda_build"
 
@@ -151,8 +152,10 @@ HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
 
 if [[ "$HTTP_STATUS" == "200" || "$HTTP_STATUS" == "201" ]]; then
   echo "  Registered ${ADMIN_EMAIL} (HTTP ${HTTP_STATUS})"
+elif [[ "$HTTP_STATUS" == "409" || "$HTTP_STATUS" == "400" ]]; then
+  echo "  User already exists, skipping registration."
 else
-  echo "  WARNING: Registration returned HTTP ${HTTP_STATUS} — user may already exist, continuing..."
+  die "Registration failed with HTTP ${HTTP_STATUS} — check your email format and password, then re-run."
 fi
 
 # Temporarily open RDS port 5432 to this machine's public IP so psql can connect.

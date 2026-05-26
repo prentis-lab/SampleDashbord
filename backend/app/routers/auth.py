@@ -10,22 +10,22 @@ from datetime import datetime
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-@router.post("/register", response_model=TokenResponse)
+@router.post("/register")
 def register(body: RegisterRequest, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == body.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
     user = User(email=body.email, hashed_password=hash_password(body.password))
     db.add(user)
     db.commit()
-    db.refresh(user)
-    token = create_access_token({"sub": str(user.id)})
-    return {"access_token": token}
+    return {"message": "Registration received. You can log in once an admin approves your account."}
 
 @router.post("/login", response_model=TokenResponse)
 def login(body: LoginRequest, request: Request, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == body.email).first()
     if not user or not verify_password(body.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
+    if not user.is_active:
+        raise HTTPException(status_code=403, detail="Account pending admin approval")
 
     # Record login time
     log = SessionLog(user_id=user.id, email=user.email, login_time=datetime.utcnow())
@@ -66,6 +66,8 @@ def admin_login(body: LoginRequest, request: Request, db: Session = Depends(get_
     user = db.query(User).filter(User.email == body.email).first()
     if not user or not verify_password(body.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
+    if not user.is_active:
+        raise HTTPException(status_code=403, detail="Account pending admin approval")
     if not user.is_admin:
         raise HTTPException(status_code=403, detail="Access denied — admins only")
 

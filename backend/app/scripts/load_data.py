@@ -12,14 +12,14 @@ def load_samples():
         db.close()
         return
 
-    file_path = os.path.join(os.path.dirname(__file__), "../../data/samples.xlsx")
+    file_path = os.path.join(os.path.dirname(__file__), "../../data/samples.csv")
 
     if not os.path.exists(file_path):
         print(f"Warning: {file_path} not found, skipping sample load.")
         db.close()
         return
 
-    df = pd.read_excel(file_path)
+    df = pd.read_csv(file_path)
     df = df.where(pd.notnull(df), None)
 
     for _, row in df.iterrows():
