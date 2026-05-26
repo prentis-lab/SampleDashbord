@@ -29,6 +29,6 @@ scheduler.tf does it. it use eventBridge scheduler the instance
   
 ## results
 - deploy.sh will set up admin account for app, eg. 
-   - Admin email:    admin@example.com
+   - Admin email:    admin@example.com   # email must follow email format 
    - Admin password: admin
 - Frontend deployed at: https://dvq7mqqv2wef5.cloudfront.net
