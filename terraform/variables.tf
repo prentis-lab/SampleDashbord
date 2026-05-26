@@ -27,3 +27,9 @@ variable "session_secret" {
   description = "Session secret key"
   sensitive   = true
 }
+
+variable "rds_schedule_enabled" {
+  description = "Set to false to disable the RDS start/stop schedule (e.g. during deployment or testing)"
+  type        = bool
+  default     = true
+}
