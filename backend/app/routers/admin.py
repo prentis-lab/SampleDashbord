@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models import User, Sample, SessionLog
 from app.core.security import hash_password, decode_access_token
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, get_current_admin, get_current_user
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime, timedelta, timezone
@@ -32,11 +32,11 @@ def get_timezone(request: Request) -> str:
     return request.headers.get("X-Timezone", "UTC")
 
 @router.get("/users")
-def get_users(db: Session = Depends(get_db)):
+def get_users(db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     return db.query(User).all()
 
 @router.post("/users")
-def create_user(body: CreateUserRequest, db: Session = Depends(get_db)):
+def create_user(body: CreateUserRequest, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     if db.query(User).filter(User.email == body.email).first():
         raise HTTPException(status_code=400, detail="Email already exists")
     user = User(
@@ -50,12 +50,12 @@ def create_user(body: CreateUserRequest, db: Session = Depends(get_db)):
     return {"message": "User created"}
 
 @router.delete("/users/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+def delete_user(user_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Close any open sessions for this userd
+    # Close any open sessions for this user
     open_sessions = db.query(SessionLog).filter(
         SessionLog.user_id == user_id,
         SessionLog.logout_time == None
@@ -68,7 +68,7 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     return {"message": "User deleted"}
 
 @router.delete("/samples/{sample_id}")
-def delete_sample(sample_id: int, db: Session = Depends(get_db)):
+def delete_sample(sample_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     sample = db.query(Sample).filter(Sample.id == sample_id).first()
     if not sample:
         raise HTTPException(status_code=404, detail="Sample not found")
@@ -77,7 +77,7 @@ def delete_sample(sample_id: int, db: Session = Depends(get_db)):
     return {"message": "Sample deleted"}
 
 @router.post("/sessions/heartbeat")
-def heartbeat(request: Request, db: Session = Depends(get_db)):
+def heartbeat(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     auth_header = request.headers.get("Authorization")
     if not auth_header or not auth_header.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Not authenticated")
@@ -122,7 +122,7 @@ def heartbeat(request: Request, db: Session = Depends(get_db)):
     return {"ok": True}
 
 @router.get("/sessions/active")
-def get_active_sessions(request: Request, db: Session = Depends(get_db)):
+def get_active_sessions(request: Request, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     timezone_str = get_timezone(request)
     cutoff = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=5)
     sessions = db.query(SessionLog).filter(
@@ -155,7 +155,7 @@ def get_active_sessions(request: Request, db: Session = Depends(get_db)):
         })
     return result
 @router.get("/sessions/history")
-def get_session_history(request: Request, db: Session = Depends(get_db)):
+def get_session_history(request: Request, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     timezone_str = get_timezone(request)
     sessions = db.query(SessionLog).filter(
         SessionLog.logout_time != None
