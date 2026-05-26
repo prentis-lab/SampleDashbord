@@ -32,3 +32,9 @@ scheduler.tf does it. it use eventBridge scheduler the instance
    - Admin email:    admin@example.com   # email must follow email format 
    - Admin password: admin
 - Frontend deployed at: https://dvq7mqqv2wef5.cloudfront.net
+
+
+## Admin lifecycle:
+  - First admin — deploy.sh registers via /auth/register then promotes via psql (one-time bootstrap)
+  - More admins — first admin calls POST /admin/users with {"is_admin": true} using their JWT
+  - Regular users — first admin calls POST /admin/users with {"is_admin": false}
