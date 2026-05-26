@@ -27,3 +27,8 @@ scheduler.tf does it. it use eventBridge scheduler the instance
   - The only visible effect is that API calls that touch the database will fail (500 error) while RDS is stopped. Purely static
   frontend pages still load fine since they are served from S3/CloudFront independently.
   
+## results
+- deploy.sh will set up admin account for app, eg. 
+   - Admin email:    admin@admin
+   - Admin password: admin
+- Frontend deployed at: https://dvq7mqqv2wef5.cloudfront.net
