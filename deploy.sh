@@ -154,6 +154,8 @@ if [[ "$HTTP_STATUS" == "200" || "$HTTP_STATUS" == "201" ]]; then
   echo "  Registered ${ADMIN_EMAIL} (HTTP ${HTTP_STATUS})"
 elif [[ "$HTTP_STATUS" == "409" || "$HTTP_STATUS" == "400" ]]; then
   echo "  User already exists, skipping registration."
+elif [[ "$HTTP_STATUS" == "502" || "$HTTP_STATUS" == "503" ]]; then
+  die "Registration failed with HTTP ${HTTP_STATUS} — Lambda error. Check RDS is running: aws rds describe-db-instances --db-instance-identifier dashbord-db --region $REGION --query 'DBInstances[0].DBInstanceStatus' --output text. Then check logs: aws logs tail /aws/lambda/${LAMBDA_NAME} --region $REGION --since 5m"
 else
   die "Registration failed with HTTP ${HTTP_STATUS} — check your email format and password, then re-run."
 fi
