@@ -53,6 +53,14 @@ AWS infrastructure for the Sample Dashbord application. All resources are provis
   │  │  dashbord-lambda-*        │   │  dashbord/db-password-v2    │   │
   │  │  Stores lambda_package.zip│   │                             │   │
   │  └───────────────────────────┘   └─────────────────────────────┘   │
+  │                                                                      │
+  │  ┌───────────────────────────────────────────────────────────────┐  │
+  │  │  RDS Scheduler (weekdays, Australia/Sydney timezone)          │  │
+  │  │                                                               │  │
+  │  │  EventBridge ──► Lambda (dashbord-rds-scheduler)             │  │
+  │  │  08:00  →  StartDBInstance                                    │  │
+  │  │  15:00  →  StopDBInstance                                     │  │
+  │  └───────────────────────────────────────────────────────────────┘  │
   └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -74,13 +82,18 @@ AWS infrastructure for the Sample Dashbord application. All resources are provis
 | Lambda Code S3 Bucket | `dashbord-lambda-<suffix>` | `aws_s3_bucket` | Private; stores `lambda_package.zip` |
 | CloudFront OAC | `dashbord-oac` | `aws_cloudfront_origin_access_control` | SigV4 signing for S3 origin |
 | CloudFront Distribution | `dashbord-cdn` | `aws_cloudfront_distribution` | HTTPS redirect, SPA 404→200, `PriceClass_100` |
-| Lambda IAM Role | `dashbord-lambda-role` | `aws_iam_role` | Allows `AWSLambdaVPCAccessExecutionRole` + `AmazonS3FullAccess` |
+| Lambda IAM Role | `dashbord-lambda-role` | `aws_iam_role` | `AWSLambdaVPCAccessExecutionRole` + `AmazonS3FullAccess` |
 | Lambda Function | `dashbord-backend` | `aws_lambda_function` | Python 3.11, 512 MB, 30 s, VPC private subnets |
 | API Gateway REST API | `dashbord-api` | `aws_api_gateway_rest_api` | `/{proxy+}` ANY → Lambda proxy |
 | API Gateway Deployment | — | `aws_api_gateway_deployment` | Stage: `prod` |
 | RDS DB Subnet Group | `dashbord-db-subnet` | `aws_db_subnet_group` | Spans private-a and private-b |
 | RDS PostgreSQL | `dashbord-db` | `aws_db_instance` | PostgreSQL 15, `db.t3.micro`, 20 GB gp2, not public |
 | Secrets Manager Secret | `dashbord/db-password-v2` | `aws_secretsmanager_secret` | Stores DB password, no recovery window |
+| Scheduler Lambda IAM Role | `dashbord-rds-scheduler-role` | `aws_iam_role` | Allows `StartDBInstance` + `StopDBInstance` on RDS |
+| Scheduler Lambda | `dashbord-rds-scheduler` | `aws_lambda_function` | Python 3.11, starts/stops RDS on schedule |
+| EventBridge IAM Role | `dashbord-rds-eventbridge-role` | `aws_iam_role` | Allows EventBridge Scheduler to invoke scheduler Lambda |
+| RDS Start Schedule | `dashbord-rds-start` | `aws_scheduler_schedule` | 08:00 Mon–Fri, `Australia/Sydney` |
+| RDS Stop Schedule | `dashbord-rds-stop` | `aws_scheduler_schedule` | 15:00 Mon–Fri, `Australia/Sydney` |
 
 ---
 
@@ -89,10 +102,15 @@ AWS infrastructure for the Sample Dashbord application. All resources are provis
 | Output | Description |
 |---|---|
 | `cloudfront_url` | Frontend URL — `https://<id>.cloudfront.net` |
-| `api_gateway_url` | Backend API base URL — `https://<id>.execute-api.ap-southeast-2.amazonaws.com/prod` |
+| `cloudfront_distribution_id` | CloudFront distribution ID (for cache invalidation) |
+| `api_gateway_url` | Backend API base URL |
 | `s3_frontend_bucket` | Frontend S3 bucket name |
 | `lambda_code_bucket` | Lambda code S3 bucket name |
-| `db_endpoint` | RDS endpoint — `dashbord-db.<id>.ap-southeast-2.rds.amazonaws.com:5432` |
+| `lambda_function_name` | Backend Lambda function name |
+| `db_endpoint` | RDS endpoint — `host:5432` |
+| `db_username` | RDS master username |
+| `rds_sg_id` | RDS security group ID |
+| `region` | AWS region |
 
 ---
 
@@ -109,18 +127,37 @@ AWS infrastructure for the Sample Dashbord application. All resources are provis
 
 ---
 
+## RDS Schedule
+
+The RDS instance runs on a weekday schedule to minimise cost. Times are in `Australia/Sydney` timezone (daylight saving handled automatically).
+
+| Event | Time | Days |
+|---|---|---|
+| Start | 08:00 | Mon – Fri |
+| Stop | 15:00 | Mon – Fri |
+
+API calls that reach the database while RDS is stopped will return a 500 error. The frontend (CloudFront + S3) is unaffected.
+
+**Manually override the schedule:**
+
+```bash
+# Start now
+aws rds start-db-instance --db-instance-identifier dashbord-db --region ap-southeast-2
+
+# Stop now
+aws rds stop-db-instance --db-instance-identifier dashbord-db --region ap-southeast-2
+
+# Check status
+aws rds describe-db-instances --db-instance-identifier dashbord-db --region ap-southeast-2 \
+  --query 'DBInstances[0].DBInstanceStatus' --output text
+```
+
+---
+
 ## Usage
 
 ```bash
 cd terraform
-
-# Create secrets file (gitignored)
-cat > terraform.tfvars <<EOF
-db_password    = "YourStrongPassword123!"
-jwt_secret     = "your-random-jwt-secret"
-session_secret = "your-random-session-secret"
-EOF
-
 terraform init
 terraform plan  -var-file="terraform.tfvars"
 terraform apply -var-file="terraform.tfvars"
