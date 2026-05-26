@@ -212,10 +212,10 @@ cleanup_sg() {
 }
 trap 'rm -f "$ENV_JSON"; cleanup_sg' EXIT
 
-echo "  Setting is_admin = true for ${ADMIN_EMAIL}..."
+echo "  Setting is_admin = true, is_active = true for ${ADMIN_EMAIL}..."
 PGPASSWORD="$DB_PASSWORD" psql \
   -h "$DB_HOST" -p "$DB_PORT" \
   -U "$DB_USERNAME" -d sample \
-  -c "UPDATE users SET is_admin = true WHERE email = '${ADMIN_EMAIL}';"
+  -c "UPDATE users SET is_admin = true, is_active = true WHERE email = '${ADMIN_EMAIL}';"
 
 info "All done! App is live at: ${CLOUDFRONT_URL}"
