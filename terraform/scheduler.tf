@@ -116,6 +116,7 @@ resource "aws_iam_role_policy" "rds_eventbridge" {
 resource "aws_scheduler_schedule" "rds_start" {
   name       = "${var.app_name}-rds-start"
   group_name = "default"
+  state      = var.rds_schedule_enabled ? "ENABLED" : "DISABLED"
 
   flexible_time_window { mode = "OFF" }
 
@@ -132,6 +133,7 @@ resource "aws_scheduler_schedule" "rds_start" {
 resource "aws_scheduler_schedule" "rds_stop" {
   name       = "${var.app_name}-rds-stop"
   group_name = "default"
+  state      = var.rds_schedule_enabled ? "ENABLED" : "DISABLED"
 
   flexible_time_window { mode = "OFF" }
 
