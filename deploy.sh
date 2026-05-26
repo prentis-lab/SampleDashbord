@@ -52,6 +52,36 @@ RDS_SG_ID=$(tf_out rds_sg_id)
 DB_HOST=$(echo "$DB_ENDPOINT" | cut -d: -f1)
 DB_PORT=$(echo "$DB_ENDPOINT" | cut -d: -f2)
 
+# ── ensure RDS is running ─────────────────────────────────────────────────────
+
+DB_INSTANCE=$(aws rds describe-db-instances \
+  --db-instance-identifier "${DB_HOST%%.*}" \
+  --region "$REGION" \
+  --query 'DBInstances[0].DBInstanceIdentifier' \
+  --output text 2>/dev/null) || die "Could not find RDS instance. Has terraform apply been run?"
+
+RDS_STATUS=$(aws rds describe-db-instances \
+  --db-instance-identifier "$DB_INSTANCE" \
+  --region "$REGION" \
+  --query 'DBInstances[0].DBInstanceStatus' \
+  --output text)
+
+if [[ "$RDS_STATUS" == "available" ]]; then
+  echo "  RDS is running."
+elif [[ "$RDS_STATUS" == "stopped" ]]; then
+  info "RDS is stopped — starting it now..."
+  aws rds start-db-instance --db-instance-identifier "$DB_INSTANCE" --region "$REGION" > /dev/null
+  echo "  Waiting for RDS to become available (this takes ~2 minutes)..."
+  aws rds wait db-instance-available --db-instance-identifier "$DB_INSTANCE" --region "$REGION"
+  echo "  RDS is now available."
+elif [[ "$RDS_STATUS" == "starting" ]]; then
+  info "RDS is already starting — waiting for it to become available..."
+  aws rds wait db-instance-available --db-instance-identifier "$DB_INSTANCE" --region "$REGION"
+  echo "  RDS is now available."
+else
+  die "RDS is in unexpected state: ${RDS_STATUS}. Check the AWS console before proceeding."
+fi
+
 echo "  Region   : $REGION"
 echo "  API URL  : $API_URL"
 echo "  Frontend : $CLOUDFRONT_URL"
