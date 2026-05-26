@@ -73,34 +73,7 @@ This script does everything in one run:
 
 The script will prompt for an admin email and password at the admin creation step.
 
----
-
-## Redeploying after changes
-
-**Backend code changed:**
-```bash
-./deploy-backend.sh
-```
-
-**Frontend code changed:**
-```bash
-cd frontend/my-app
-npm run build
-aws s3 sync dist/ s3://$(terraform -chdir=./terraform output -raw s3_frontend_bucket) --delete
-```
-
-**Infrastructure changed:**
-```bash
-cd terraform
-terraform apply -var-file="terraform.tfvars"
-```
-
-If the frontend looks stale after a redeploy, invalidate the CloudFront cache:
-```bash
-aws cloudfront create-invalidation \
-  --distribution-id $(terraform -chdir=./terraform output -raw cloudfront_distribution_id) \
-  --paths "/*"
-```
+To redeploy after code changes, re-run `./deploy.sh`. For infrastructure changes only, run `terraform apply -var-file="terraform.tfvars"` inside the `terraform/` directory.
 
 ---
 
@@ -125,5 +98,5 @@ the secrets. Delete them when you no longer need them.
 | Lambda `GLIBC` / `pydantic_core` error | Ensure Docker is running; the build requires `--platform linux/amd64` |
 | `Internal server error` on API | `aws logs tail /aws/lambda/dashbord-backend --region ap-southeast-2` |
 | CORS error in browser | Check `FRONTEND_URL` in Lambda env matches the CloudFront URL exactly |
-| Frontend not updating | Invalidate CloudFront cache (see Redeploying section) |
+| Frontend not updating | `aws cloudfront create-invalidation --distribution-id $(terraform -chdir=./terraform output -raw cloudfront_distribution_id) --paths "/*"` |
 | `psql: could not connect` in deploy.sh | Set `publicly_accessible = true` in `terraform/rds.tf` and re-apply |
