@@ -1,3 +1,4 @@
+# RDS database set up
 ## cost of db.t3.micro
 - db.t3.micro is already the smallest RDS instance class, so there's nothing cheaper in traditional RDS.
 - Cost (ap-southeast-2, on-demand): ~$0.018/hr → roughly $13/month, plus ~$2.50/month for 20 GB storage. 
@@ -6,9 +7,17 @@
    - Simple, zero complexity, costs almost nothing (~$0.20/month for the Lambda invocations). You only pay for RDS during the hours it runs. Best for a demo app with predictable usage hours.
 - Option B — Migrate to Aurora Serverless v2 with scale-to-zero
   - The tradeoff is cost: at active load it's more expensive than db.t3.micro.
+ 
+## CloudFront distribution's domain
+- CloudFront assigns this subdomain when the distribution is first `terraform apply ...` and it never  changes even redeployment, not ever. The only way to get a new one is to destroy the distribution and create a fresh one (terraform destroy).
+-  After redeployment: deploy.sh only updates the content in S3 (via aws s3 sync). The CloudFront URL stays the same. You  never need to update your DNS record after redeployment.
+-  So for your custom domain: set up the CNAME/ALIAS in Porkbun pointing to d34xak95d0rv73.cloudfront.net once and forget
+  it — it's a permanent target. 
 
 ## set RD start on 8am but stop on 3pm on weekday
 scheduler.tf does it. it use eventBridge scheduler the instance
+
+## 
 
 ## Manually start/stop RDS:
 
