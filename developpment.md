@@ -24,6 +24,15 @@ scheduler.tf does it. it use eventBridge scheduler the instance
   - aws rds describe-db-instances --db-instance-identifier dashbord-db --region ap-southeast-2 --query 'DBInstances[0].DBInstanceStatus' --output text
      - Wait ~2 minutes after starting before testing the app.
      - The only visible effect is that API calls that touch the database will fail (500 error) while RDS is stopped. Purely static frontend pages still load fine since they are served from S3/CloudFront independently.
+   
+## trobule shooting
+- The IP 10.0.2.7 is a private VPC address — RDS is not publicly accessible so your local machine can never reach it, regardless of the security group rule.
+   - You need to set it to true first: Open terraform/rds.tf and change: `publicly_accessible = true`
+   - cd terraform && terraform apply -var-file="terraform.tfvars" && cd ..
+   — Re-run deploy.sh — the psql step will succeed this time.
+   — set it back: publicly_accessible = false;
+   - cd terraform && terraform apply -var-file="terraform.tfvars" && cd ..
+
   
 ## results
 - deploy.sh will set up admin account for app, eg. 
