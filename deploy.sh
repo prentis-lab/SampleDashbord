@@ -47,10 +47,8 @@ S3_LAMBDA=$(tf_out lambda_code_bucket)
 DB_ENDPOINT=$(tf_out db_endpoint)        # host:port
 DB_USERNAME=$(tf_out db_username)
 LAMBDA_NAME=$(tf_out lambda_function_name)
-RDS_SG_ID=$(tf_out rds_sg_id)
 
 DB_HOST=$(echo "$DB_ENDPOINT" | cut -d: -f1)
-DB_PORT=$(echo "$DB_ENDPOINT" | cut -d: -f2)
 
 # ── ensure RDS is running ─────────────────────────────────────────────────────
 
@@ -133,6 +131,7 @@ echo "  Setting Lambda environment variables..."
 ENV_JSON=$(mktemp)
 trap 'rm -f "$ENV_JSON"' EXIT
 
+
 cat > "$ENV_JSON" <<JSON
 {
   "Variables": {
@@ -190,32 +189,16 @@ else
   die "Registration failed with HTTP ${HTTP_STATUS} — check your email format and password, then re-run."
 fi
 
-# Temporarily open RDS port 5432 to this machine's public IP so psql can connect.
-# NOTE: This requires the RDS instance to be publicly_accessible = true in rds.tf.
-#       If it is set to false, set it to true, run terraform apply, then re-run this script.
-MY_IP=$(curl -s https://checkip.amazonaws.com)
-echo "  Opening RDS port 5432 to ${MY_IP}/32..."
-aws ec2 authorize-security-group-ingress \
-  --group-id "$RDS_SG_ID" \
-  --protocol tcp --port 5432 \
-  --cidr "${MY_IP}/32" \
-  --region "$REGION"
+echo "  Granting admin access via bootstrap endpoint..."
+BOOTSTRAP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X POST "${API_URL}/auth/bootstrap" \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"${ADMIN_EMAIL}\",\"token\":\"${JWT_SECRET}\"}")
 
-# Always revoke the SG rule on exit, even if psql fails.
-cleanup_sg() {
-  echo "  Closing RDS port 5432..."
-  aws ec2 revoke-security-group-ingress \
-    --group-id "$RDS_SG_ID" \
-    --protocol tcp --port 5432 \
-    --cidr "${MY_IP}/32" \
-    --region "$REGION" 2>/dev/null || true
-}
-trap 'rm -f "$ENV_JSON"; cleanup_sg' EXIT
-
-echo "  Setting is_admin = true, is_active = true for ${ADMIN_EMAIL}..."
-PGPASSWORD="$DB_PASSWORD" psql \
-  -h "$DB_HOST" -p "$DB_PORT" \
-  -U "$DB_USERNAME" -d sample \
-  -c "UPDATE users SET is_admin = true, is_active = true WHERE email = '${ADMIN_EMAIL}';"
+if [[ "$BOOTSTRAP_STATUS" == "200" ]]; then
+  echo "  Admin access granted for ${ADMIN_EMAIL}."
+else
+  die "Bootstrap failed with HTTP ${BOOTSTRAP_STATUS} — check Lambda logs: aws logs tail /aws/lambda/${LAMBDA_NAME} --region ${REGION} --since 5m"
+fi
 
 info "All done! App is live at: ${CLOUDFRONT_URL}"
