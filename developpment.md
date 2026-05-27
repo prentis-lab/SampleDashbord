@@ -20,6 +20,7 @@ scheduler.tf does it. it use eventBridge scheduler the instance
 
   #### Check status
   - aws lambda list-functions --region ap-southeast-2 --query 'Functions[].FunctionName' --output text
+  - aws logs tail /aws/lambda/dashbord-backend --region ap-southeast-2 --since 10m  --follow
   - aws rds describe-db-instances --db-instance-identifier dashbord-db --region ap-southeast-2 --query 'DBInstances[0].DBInstanceStatus' --output text
      - Wait ~2 minutes after starting before testing the app.
      - The only visible effect is that API calls that touch the database will fail (500 error) while RDS is stopped. Purely static frontend pages still load fine since they are served from S3/CloudFront independently.
