@@ -32,7 +32,15 @@ scheduler.tf does it. it use eventBridge scheduler the instance
    — Re-run deploy.sh — the psql step will succeed this time.
    — set it back: publicly_accessible = false;
    - cd terraform && terraform apply -var-file="terraform.tfvars" && cd ..
-
+- Now The bootstrap flow never touches RDS directly from your local machine, hence we can set `publicly_accessible = false`
+  
+  Your machine  →  curl  →  API Gateway (public)  →  Lambda (in VPC)  →  RDS (in VPC, private)
+       
+                             
+- replace dataset
+  - python3 convert_to_utf8.py eal_data.csv samples.csv
+  - terraform destroy -target=aws_db_instance.main -var-file="terraform.tfvars"
+  - terraform apply -var-file="terraform.tfvars" && ./deploy.sh
   
 ## results
 - deploy.sh will set up admin account for app, eg. 
