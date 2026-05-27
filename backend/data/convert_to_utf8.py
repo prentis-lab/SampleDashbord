@@ -31,9 +31,10 @@ def read_csv(path: pathlib.Path):
 def read_excel(path: pathlib.Path):
     try:
         import pandas as pd
-    except ImportError:
-        print("ERROR: pandas is required for Excel files.")
-        print("Install it with: pip3 install pandas openpyxl")
+        import openpyxl  # noqa: F401 — required by pandas for .xlsx
+    except ImportError as e:
+        print(f"ERROR: {e}")
+        print("Install with: pip3 install pandas openpyxl")
         sys.exit(1)
 
     xl = pd.ExcelFile(path)
