@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models import User, SessionLog
 from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, UserOut
-from app.core.security import hash_password, verify_password, create_access_token
+from app.core.security import hash_password, verify_password, create_access_token, SECRET_KEY
 from app.core.dependencies import get_db, get_current_user
+from pydantic import BaseModel
 from datetime import datetime
 
 
@@ -86,3 +87,19 @@ def admin_login(body: LoginRequest, request: Request, db: Session = Depends(get_
 @router.get("/me", response_model=UserOut)
 def me(current_user: User = Depends(get_current_user)):
     return current_user
+
+class BootstrapRequest(BaseModel):
+    email: str
+    token: str
+
+@router.post("/bootstrap")
+def bootstrap(body: BootstrapRequest, db: Session = Depends(get_db)):
+    if body.token != SECRET_KEY:
+        raise HTTPException(status_code=403, detail="Invalid bootstrap token")
+    user = db.query(User).filter(User.email == body.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found — register first")
+    user.is_admin  = True
+    user.is_active = True
+    db.commit()
+    return {"message": f"{body.email} is now an active admin"}

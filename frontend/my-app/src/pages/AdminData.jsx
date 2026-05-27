@@ -1,10 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
 import API_BASE from "../api/config"
+import { getStoredToken } from "../context/AuthStorage"
 
 const API = axios.create({ baseURL: API_BASE })
 API.interceptors.request.use(config => {
-  const token = localStorage.getItem("token")
+  const token = getStoredToken()
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
