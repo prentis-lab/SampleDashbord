@@ -19,7 +19,8 @@ resource "aws_db_instance" "main" {
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
   skip_final_snapshot    = true
-  publicly_accessible    = true
+  # Lambda and RDS share the same VPC; no direct external DB access needed
+  publicly_accessible    = false  
 
   tags = { Name = "${var.app_name}-db" }
 }
