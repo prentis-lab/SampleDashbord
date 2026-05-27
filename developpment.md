@@ -8,11 +8,7 @@
 - Option B — Migrate to Aurora Serverless v2 with scale-to-zero
   - The tradeoff is cost: at active load it's more expensive than db.t3.micro.
  
-## CloudFront distribution's domain
-- CloudFront assigns this subdomain when the distribution is first `terraform apply ...` and it never  changes even redeployment, not ever. The only way to get a new one is to destroy the distribution and create a fresh one (terraform destroy).
--  After redeployment: deploy.sh only updates the content in S3 (via aws s3 sync). The CloudFront URL stays the same. You  never need to update your DNS record after redeployment.
--  So for your custom domain: set up the CNAME/ALIAS in Porkbun pointing to d34xak95d0rv73.cloudfront.net once and forget
-  it — it's a permanent target. 
+
 
 ## set RD start on 8am but stop on 3pm on weekday
 scheduler.tf does it. it use eventBridge scheduler the instance
@@ -62,14 +58,20 @@ scheduler.tf does it. it use eventBridge scheduler the instance
   - First admin — deploy.sh registers via /auth/register then promotes via psql (one-time bootstrap)
   - More admins — first admin calls POST /admin/users with {"is_admin": true} using their JWT
   - Regular users — first admin calls POST /admin/users with {"is_admin": false}
-# Custom Domain Setup — Porkbun + AWS CloudFront
 
-Connect your Porkbun domain to the CloudFront distribution at
-`dvq7mqqv2wef5.cloudfront.net`.
 
 ---
 
-## Overview
+
+## domain set up — Porkbun + AWS CloudFront
+### CloudFront distribution's domain
+-Connect your Porkbun domain to the CloudFront distribution at `dvq7mqqv2wef5.cloudfront.net`.
+- CloudFront assigns this subdomain when the distribution is first `terraform apply ...` and it never  changes even redeployment, not ever. The only way to get a new one is to destroy the distribution and create a fresh one (terraform destroy).
+-  After redeployment: deploy.sh only updates the content in S3 (via aws s3 sync). The CloudFront URL stays the same. You  never need to update your DNS record after redeployment.
+-  So for your custom domain: set up the CNAME/ALIAS in Porkbun pointing to d34xak95d0rv73.cloudfront.net once and forget
+  it — it's a permanent target. 
+
+### link to your domain
 
 | Step | Where | What |
 |---|---|---|
@@ -80,7 +82,7 @@ Connect your Porkbun domain to the CloudFront distribution at
 
 ---
 
-## Step 1 — Request an SSL Certificate (AWS ACM)
+#### Step 1 — Request an SSL Certificate (AWS ACM)
 
 > CloudFront requires certificates to be in **us-east-1** regardless of where
 > your app is deployed.
@@ -122,7 +124,7 @@ Output will look like:
 
 ---
 
-## Step 2 — Validate Certificate Ownership (Porkbun DNS)
+#### Step 2 — Validate Certificate Ownership (Porkbun DNS)
 
 1. Log in to [Porkbun](https://porkbun.com) → **Domain Management** → your domain → **DNS**
 2. Add a new record:
@@ -146,7 +148,7 @@ echo "Certificate validated"
 
 ---
 
-## Step 3 — Attach Certificate and Domain to CloudFront (Terraform)
+- Step 3 — Attach Certificate and Domain to CloudFront (Terraform)
 
 Add the following to `terraform/terraform.tfvars`:
 
@@ -195,17 +197,17 @@ terraform apply -var-file="terraform.tfvars"
 
 ---
 
-## Step 4 — Point Your Domain at CloudFront (Porkbun DNS)
+#### Step 4 — Point Your Domain at CloudFront (Porkbun DNS)
 
 Go back to Porkbun DNS and add the following records:
 
-### Option A — Subdomain only (e.g. `app.yourdomain.com`)
+- Option A — Subdomain only (e.g. `app.yourdomain.com`)
 
 | Type | Host | Answer | TTL |
 |---|---|---|---|
 | `CNAME` | `app` | `dvq7mqqv2wef5.cloudfront.net.` | `600` |
 
-### Option B — Apex + www (e.g. `yourdomain.com` and `www.yourdomain.com`)
+- Option B — Apex + www (e.g. `yourdomain.com` and `www.yourdomain.com`)
 
 Porkbun supports `ALIAS` records for apex domains:
 
@@ -219,7 +221,7 @@ Porkbun supports `ALIAS` records for apex domains:
 
 ---
 
-## Verification
+- Verification
 
 After DNS propagates (5–30 minutes):
 
