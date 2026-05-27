@@ -38,3 +38,184 @@ scheduler.tf does it. it use eventBridge scheduler the instance
   - First admin — deploy.sh registers via /auth/register then promotes via psql (one-time bootstrap)
   - More admins — first admin calls POST /admin/users with {"is_admin": true} using their JWT
   - Regular users — first admin calls POST /admin/users with {"is_admin": false}
+# Custom Domain Setup — Porkbun + AWS CloudFront
+
+Connect your Porkbun domain to the CloudFront distribution at
+`dvq7mqqv2wef5.cloudfront.net`.
+
+---
+
+## Overview
+
+| Step | Where | What |
+|---|---|---|
+| 1 | AWS ACM (us-east-1) | Request SSL certificate for your domain |
+| 2 | Porkbun DNS | Add CNAME to validate certificate ownership |
+| 3 | Terraform | Attach certificate and domain to CloudFront |
+| 4 | Porkbun DNS | Point your domain at CloudFront |
+
+---
+
+## Step 1 — Request an SSL Certificate (AWS ACM)
+
+> CloudFront requires certificates to be in **us-east-1** regardless of where
+> your app is deployed.
+
+```bash
+aws acm request-certificate \
+  --domain-name "yourdomain.com" \
+  --subject-alternative-names "www.yourdomain.com" \
+  --validation-method DNS \
+  --region us-east-1
+```
+
+This returns a certificate ARN — save it:
+
+```
+arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+Get the DNS validation records AWS needs you to add:
+
+```bash
+aws acm describe-certificate \
+  --certificate-arn <your-certificate-arn> \
+  --region us-east-1 \
+  --query 'Certificate.DomainValidationOptions[].ResourceRecord'
+```
+
+Output will look like:
+
+```json
+[
+  {
+    "Name": "_abc123.yourdomain.com",
+    "Type": "CNAME",
+    "Value": "_xyz789.acm-validations.aws."
+  }
+]
+```
+
+---
+
+## Step 2 — Validate Certificate Ownership (Porkbun DNS)
+
+1. Log in to [Porkbun](https://porkbun.com) → **Domain Management** → your domain → **DNS**
+2. Add a new record:
+
+| Field | Value |
+|---|---|
+| Type | `CNAME` |
+| Host | `_abc123` (the part before `.yourdomain.com` from Step 1 output) |
+| Answer | `_xyz789.acm-validations.aws.` (the Value from Step 1 output) |
+| TTL | `600` |
+
+3. Wait for the certificate to validate (usually 5–15 minutes):
+
+```bash
+aws acm wait certificate-validated \
+  --certificate-arn <your-certificate-arn> \
+  --region us-east-1
+
+echo "Certificate validated"
+```
+
+---
+
+## Step 3 — Attach Certificate and Domain to CloudFront (Terraform)
+
+Add the following to `terraform/terraform.tfvars`:
+
+```hcl
+domain_name     = "yourdomain.com"
+certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+Add the variables to `terraform/variables.tf`:
+
+```hcl
+variable "domain_name" {
+  description = "Custom domain for the CloudFront distribution (leave empty to use the default CloudFront URL)"
+  type        = string
+  default     = ""
+}
+
+variable "certificate_arn" {
+  description = "ACM certificate ARN (must be in us-east-1). Required when domain_name is set."
+  type        = string
+  default     = ""
+}
+```
+
+Update the CloudFront distribution in `terraform/cloudfront.tf` — replace the
+`viewer_certificate` block and add `aliases`:
+
+```hcl
+# Add this block inside aws_cloudfront_distribution "frontend"
+aliases = var.domain_name != "" ? [var.domain_name, "www.${var.domain_name}"] : []
+
+viewer_certificate {
+  acm_certificate_arn      = var.certificate_arn != "" ? var.certificate_arn : null
+  cloudfront_default_certificate = var.certificate_arn == ""
+  ssl_support_method       = var.certificate_arn != "" ? "sni-only" : null
+  minimum_protocol_version = var.certificate_arn != "" ? "TLSv1.2_2021" : null
+}
+```
+
+Apply the changes:
+
+```bash
+cd terraform
+terraform apply -var-file="terraform.tfvars"
+```
+
+---
+
+## Step 4 — Point Your Domain at CloudFront (Porkbun DNS)
+
+Go back to Porkbun DNS and add the following records:
+
+### Option A — Subdomain only (e.g. `app.yourdomain.com`)
+
+| Type | Host | Answer | TTL |
+|---|---|---|---|
+| `CNAME` | `app` | `dvq7mqqv2wef5.cloudfront.net.` | `600` |
+
+### Option B — Apex + www (e.g. `yourdomain.com` and `www.yourdomain.com`)
+
+Porkbun supports `ALIAS` records for apex domains:
+
+| Type | Host | Answer | TTL |
+|---|---|---|---|
+| `ALIAS` | *(leave blank)* | `dvq7mqqv2wef5.cloudfront.net.` | `600` |
+| `CNAME` | `www` | `dvq7mqqv2wef5.cloudfront.net.` | `600` |
+
+> **Note:** Standard DNS does not support `CNAME` on an apex domain (`yourdomain.com`
+> with no subdomain). Porkbun's `ALIAS` record handles this transparently.
+
+---
+
+## Verification
+
+After DNS propagates (5–30 minutes):
+
+```bash
+# Check DNS has propagated
+dig yourdomain.com +short
+
+# Check HTTPS works
+curl -I https://yourdomain.com
+```
+
+The response should show `HTTP/2 200` and a certificate issued by Amazon.
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| Certificate stuck in `PENDING_VALIDATION` | Check the CNAME record in Porkbun matches exactly — trailing dot in the value is normal |
+| CloudFront returns 403 after domain change | Invalidate cache: `aws cloudfront create-invalidation --distribution-id $(terraform -chdir=./terraform output -raw cloudfront_distribution_id) --paths "/*"` |
+| Browser shows certificate warning | Ensure the certificate ARN in `terraform.tfvars` is correct and in `us-east-1` |
+| `yourdomain.com` works but `www` does not | Confirm both are in the `aliases` list and both have DNS records in Porkbun |
