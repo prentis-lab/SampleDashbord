@@ -17,6 +17,8 @@ export default function AdminData() {
   const [sqlError, setSqlError] = useState("")
   const [deleteMsg, setDeleteMsg] = useState("")
   const [sampleId, setSampleId] = useState("")
+  const [sampleMatches, setSampleMatches] = useState([])
+  const [samplePreview, setSamplePreview] = useState(null)
   const [addMsg, setAddMsg] = useState("")
   const sydneyDate = () => new Date().toLocaleString("sv-SE", { timeZone: "Australia/Sydney" }).replace("T", " ")
 
@@ -34,11 +36,31 @@ export default function AdminData() {
       .catch(err => setSqlError(err.response?.data?.detail || "Query error"))
   }
 
+  const confirmSample = () => {
+    setDeleteMsg("")
+    setSamplePreview(null)
+    setSampleMatches([])
+    if (!sampleId.trim()) return
+    API.get(`/admin/samples/search/${encodeURIComponent(sampleId.trim())}`)
+      .then(res => {
+        const results = res.data
+        if (results.length === 1) {
+          setSamplePreview(results[0])
+        } else {
+          setSampleMatches(results)
+        }
+      })
+      .catch(err => setDeleteMsg(err.response?.data?.detail || "Failed to fetch sample"))
+  }
+
   const deleteSample = () => {
-    if (!sampleId) return
-    if (!window.confirm(`Delete sample ID ${sampleId}?`)) return
-    API.delete(`/admin/samples/${sampleId}`)
-      .then(() => { setDeleteMsg("✓ Sample deleted"); setSampleId("") })
+    API.delete(`/admin/samples/${samplePreview.id}`)
+      .then(() => {
+        setDeleteMsg("✓ Sample deleted")
+        setSampleId("")
+        setSamplePreview(null)
+        setSampleMatches([])
+      })
       .catch(err => setDeleteMsg("Error: " + (err.response?.data?.detail || "Failed")))
   }
 
@@ -94,15 +116,71 @@ export default function AdminData() {
       {activeTab === "samples" && (
         <div>
           <h3>Delete a Sample</h3>
-          <p style={{ color: "#666", fontSize: 13 }}>Enter the database ID of the sample to delete (find it using <code>SELECT id, sample_id FROM samples</code> in the SQL tab)</p>
+          <p style={{ color: "#666", fontSize: 13 }}>Enter the Sample ID to search</p>
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <input placeholder="Sample DB ID (e.g. 3)" value={sampleId} onChange={e => setSampleId(e.target.value)}
-              style={{ padding: 8, borderRadius: 4, border: "1px solid #ccc", width: 200 }} />
-            <button onClick={deleteSample} style={{ padding: "8px 20px", background: "#e74c3c", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
-              Delete Sample
+            <input placeholder="Sample ID (e.g. SMP001)" value={sampleId}
+              onChange={e => { setSampleId(e.target.value); setSamplePreview(null); setSampleMatches([]); setDeleteMsg("") }}
+              style={{ padding: 8, borderRadius: 4, border: "1px solid #ccc", width: 240 }} />
+            <button onClick={confirmSample} style={{ padding: "8px 20px", background: "#3498db", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
+              Confirm
             </button>
           </div>
-          {deleteMsg && <p style={{ color: deleteMsg.startsWith("✓") ? "green" : "red", fontSize: 13 }}>{deleteMsg}</p>}
+          {deleteMsg && <p style={{ color: deleteMsg.startsWith("✓") ? "green" : "red", fontSize: 13, marginTop: 8 }}>{deleteMsg}</p>}
+
+          {sampleMatches.length > 1 && (
+            <div style={{ marginTop: 16, padding: "12px 16px", background: "#fff8e1", border: "1px solid #f0ad4e", borderRadius: 6 }}>
+              <p style={{ margin: "0 0 10px", color: "#856404", fontSize: 13 }}>
+                ⚠️ {sampleMatches.length} records found with Sample ID <strong>{sampleId}</strong>. Select the one to delete:
+              </p>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                <thead>
+                  <tr style={{ background: "#fdeeba" }}>
+                    <th style={{ padding: "6px 10px", textAlign: "left" }}>DB ID</th>
+                    <th style={{ padding: "6px 10px", textAlign: "left" }}>Sample ID</th>
+                    <th style={{ padding: "6px 10px", textAlign: "left" }}>Type</th>
+                    <th style={{ padding: "6px 10px", textAlign: "left" }}>File Prefix</th>
+                    <th style={{ padding: "6px 10px", textAlign: "left" }}>Date</th>
+                    <th style={{ padding: "6px 10px", textAlign: "left" }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sampleMatches.map(s => (
+                    <tr key={s.id} style={{ borderBottom: "1px solid #fdeeba" }}>
+                      <td style={{ padding: "6px 10px" }}>{s.id}</td>
+                      <td style={{ padding: "6px 10px" }}>{s.sample_id}</td>
+                      <td style={{ padding: "6px 10px" }}>{s.type || "—"}</td>
+                      <td style={{ padding: "6px 10px" }}>{s.file_prefix || "—"}</td>
+                      <td style={{ padding: "6px 10px" }}>{s.date || "—"}</td>
+                      <td style={{ padding: "6px 10px" }}>
+                        <button onClick={() => { setSamplePreview(s); setSampleMatches([]) }}
+                          style={{ padding: "4px 12px", background: "#3498db", color: "white", border: "none", borderRadius: 3, cursor: "pointer", fontSize: 12 }}>
+                          Select
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {samplePreview && (
+            <div style={{ marginTop: 20 }}>
+              <h4 style={{ marginBottom: 12 }}>Sample Details</h4>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px", marginBottom: 20 }}>
+                {FIELDS.map(([field, label]) => (
+                  <div key={field}>
+                    <label style={{ display: "block", fontSize: 12, color: "#666", marginBottom: 3 }}>{label}</label>
+                    <input readOnly value={samplePreview[field] || ""}
+                      style={{ width: "100%", padding: "7px 10px", borderRadius: 4, border: "1px solid #eee", fontSize: 13, boxSizing: "border-box", background: "#f9f9f9", color: "#333" }} />
+                  </div>
+                ))}
+              </div>
+              <button onClick={deleteSample} style={{ padding: "10px 28px", background: "#e74c3c", color: "white", border: "none", borderRadius: 4, cursor: "pointer", fontSize: 14 }}>
+                Delete Sample
+              </button>
+            </div>
+          )}
         </div>
       )}
 

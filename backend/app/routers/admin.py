@@ -108,6 +108,20 @@ def create_sample(body: CreateSampleRequest, db: Session = Depends(get_db), _: U
     db.refresh(sample)
     return {"message": "Sample added", "id": sample.id}
 
+@router.get("/samples/search/{sample_id}")
+def search_samples(sample_id: str, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
+    samples = db.query(Sample).filter(Sample.sample_id == sample_id).all()
+    if not samples:
+        raise HTTPException(status_code=404, detail=f"Sample with id '{sample_id}' is not found")
+    return samples
+
+@router.get("/samples/{sample_id}")
+def get_sample(sample_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
+    sample = db.query(Sample).filter(Sample.id == sample_id).first()
+    if not sample:
+        raise HTTPException(status_code=404, detail=f"Sample with id {sample_id} is not found")
+    return sample
+
 @router.delete("/samples/{sample_id}")
 def delete_sample(sample_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     sample = db.query(Sample).filter(Sample.id == sample_id).first()
