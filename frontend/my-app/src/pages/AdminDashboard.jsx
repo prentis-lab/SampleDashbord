@@ -47,15 +47,6 @@ export default function AdminDashboard() {
           <p style={{ margin: 0, color: "#666", fontSize: 14 }}>Remove samples and run SQL queries on the database</p>
         </div>
 
-        <div
-          onClick={() => navigate("/dashboard")}
-          style={{ padding: 24, border: "1px solid #ddd", borderRadius: 8, cursor: "pointer", background: "white" }}
-          onMouseEnter={e => e.currentTarget.style.background = "#fafafa"}
-          onMouseLeave={e => e.currentTarget.style.background = "white"}
-        >
-          <h3 style={{ margin: "0 0 8px", color: "#333" }}>📊 User Dashboard</h3>
-          <p style={{ margin: 0, color: "#666", fontSize: 14 }}>View the regular user dashboard</p>
-        </div>
       </div>
     </div>
   )
