@@ -62,7 +62,9 @@ Takes ~10–15 minutes. Terraform provisions the VPC, RDS, Lambda, API Gateway, 
 
 ## Step 3 — Deploy backend, frontend, and create admin account
 
+move your database file to /backend/data/samples.csv before run deploy schripts.
 ```bash
+cp <db file> /backend/data/samples.csv
 ./deploy.sh
 ```
 
