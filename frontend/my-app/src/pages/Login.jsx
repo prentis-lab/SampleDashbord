@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, register, googleLogin } from "../api/auth";
 import { useAuth } from "../context/useAuth";
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,6 +20,13 @@ export default function Login() {
     try {
       const fn = isRegister ? register : login;
       const res = await fn(email, password);
+      const meRes = await axios.get(`${API_BASE}/auth/me`, {
+        headers: { Authorization: `Bearer ${res.data.access_token}` }
+      })
+      if (meRes.data.is_admin) {
+        setError("This is an admin account. Please use the Admin Login.")
+        return
+      }
       saveToken(res.data.access_token);
       navigate("/dashboard");
     } catch (err) {
