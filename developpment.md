@@ -249,3 +249,19 @@ The response should show `HTTP/2 200` and a certificate issued by Amazon.
 | CloudFront returns 403 after domain change | Invalidate cache: `aws cloudfront create-invalidation --distribution-id $(terraform -chdir=./terraform output -raw cloudfront_distribution_id) --paths "/*"` |
 | Browser shows certificate warning | Ensure the certificate ARN in `terraform.tfvars` is correct and in `us-east-1` |
 | `yourdomain.com` works but `www` does not | Confirm both are in the `aliases` list and both have DNS records in Porkbun |
+
+
+
+## Session & Token Settings
+
+  | What | Value | Location |
+  |---|---|---|
+  | JWT token expiry | 60 minutes | `backend/app/core/security.py` → `ACCESS_TOKEN_EXPIRE_MINUTES = 60` |
+  | Heartbeat interval | every 60 seconds | `frontend/my-app/src/context/AuthContext.jsx` → `setInterval(sendHeartbeat, 60
+  * 1000)` |
+  | Inactivity logout | not implemented | heartbeat fires regardless of user activity |
+
+   
+currently an active user never gets logged out (heartbeat keeps refreshing the token), but an idle user gets logged out after exactly 60 minutes when the token expires.  
+
+
