@@ -50,8 +50,12 @@ scheduler.tf does it. it use eventBridge scheduler the instance
 ## results
 - deploy.sh will set up admin account for app, eg. 
    - Admin email:    admin@admin.com   # email must follow email format 
-   - Admin password: admin
+   - Admin password: xxxx
 - Frontend deployed at: https://dvq7mqqv2wef5.cloudfront.net
+- sql example
+  - `SELECT DISTINCT group FROM samples ORDER BY group;`
+  - `SELECT DISTINCT * FROM samples ORDER BY date DESC LIMIT 5`
+  - `UPDATE samples SET project_investigators = 'unknown' WHERE project_investigators IS NULL OR project_investigators = '' OR project_investigators = ' ';`
 
 
 ## Admin lifecycle:
