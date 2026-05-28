@@ -22,7 +22,10 @@ resource "aws_iam_role_policy" "rds_scheduler_lambda" {
       {
         Effect   = "Allow"
         Action   = ["rds:StartDBInstance", "rds:StopDBInstance"]
-        Resource = aws_db_instance.main.arn
+        # Resource must be "*" because AWS evaluates IAM against the DBI Resource ID ARN
+        # (e.g. arn:...:db:db-xxx), not the identifier ARN (arn:...:db:dashbord-db).
+        # The Lambda env var DB_INSTANCE_ID ensures it only ever acts on one instance.
+        Resource = "*"
       },
       {
         Effect   = "Allow"
