@@ -6,7 +6,13 @@ Usage:
 
 If output_file is omitted, the input file is overwritten in-place.
 Supported input formats: .csv, .xlsx, .xls
-Excel files require pandas: pip3 install pandas openpyxl
+
+Excel files require pandas and openpyxl. If pip3 install fails with
+"externally-managed-environment" (macOS system Python), use a venv instead:
+
+    python3 -m venv /tmp/convert_env
+    /tmp/convert_env/bin/pip install pandas openpyxl --quiet
+    /tmp/convert_env/bin/python3 convert_to_utf8.py <input_file> [output_file]
 """
 
 import sys
