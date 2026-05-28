@@ -76,6 +76,38 @@ def delete_user(user_id: int, db: Session = Depends(get_db), _: User = Depends(g
     db.commit()
     return {"message": "User deleted"}
 
+class CreateSampleRequest(BaseModel):
+    type: Optional[str] = None
+    technology: Optional[str] = None
+    group: Optional[str] = None
+    sample_id: Optional[str] = None
+    parent_1: Optional[str] = None
+    parent_2: Optional[str] = None
+    species_variety: Optional[str] = None
+    phenotype_treatment: Optional[str] = None
+    tissue_sampled: Optional[str] = None
+    date: Optional[str] = None
+    data_location: Optional[str] = None
+    file_prefix: Optional[str] = None
+    project_leaders: Optional[str] = None
+    project_investigators: Optional[str] = None
+    project_id: Optional[str] = None
+    project_details: Optional[str] = None
+    other_notes: Optional[str] = None
+    rdss_location: Optional[str] = None
+
+@router.post("/samples")
+def create_sample(body: CreateSampleRequest, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
+    if not body.sample_id or not body.sample_id.strip():
+        raise HTTPException(status_code=400, detail="Sample ID is required")
+    if db.query(Sample).filter(Sample.sample_id == body.sample_id.strip()).first():
+        raise HTTPException(status_code=400, detail=f"Sample ID '{body.sample_id}' already exists")
+    sample = Sample(**body.dict())
+    db.add(sample)
+    db.commit()
+    db.refresh(sample)
+    return {"message": "Sample added", "id": sample.id}
+
 @router.delete("/samples/{sample_id}")
 def delete_sample(sample_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_admin)):
     sample = db.query(Sample).filter(Sample.id == sample_id).first()

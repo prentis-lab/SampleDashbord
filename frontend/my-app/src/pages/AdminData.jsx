@@ -17,6 +17,15 @@ export default function AdminData() {
   const [sqlError, setSqlError] = useState("")
   const [deleteMsg, setDeleteMsg] = useState("")
   const [sampleId, setSampleId] = useState("")
+  const [addMsg, setAddMsg] = useState("")
+  const sydneyDate = () => new Date().toLocaleString("sv-SE", { timeZone: "Australia/Sydney" }).replace("T", " ")
+
+  const [newSample, setNewSample] = useState({
+    type: "", technology: "", group: "", sample_id: "", parent_1: "", parent_2: "",
+    species_variety: "", phenotype_treatment: "", tissue_sampled: "", date: sydneyDate(),
+    data_location: "", file_prefix: "", project_leaders: "", project_investigators: "",
+    project_id: "", project_details: "", other_notes: "", rdss_location: ""
+  })
 
   const runSQL = () => {
     setSqlError("")
@@ -33,7 +42,37 @@ export default function AdminData() {
       .catch(err => setDeleteMsg("Error: " + (err.response?.data?.detail || "Failed")))
   }
 
-  const tabs = [["samples", "🗄️ Samples"], ["sql", "💻 SQL"]]
+  const addSample = () => {
+    setAddMsg("")
+    if (!newSample.sample_id.trim()) {
+      setAddMsg("Error: Sample ID is required")
+      return
+    }
+    API.post("/admin/samples", newSample)
+      .then(() => {
+        setAddMsg("✓ Sample added")
+        setNewSample({
+          type: "", technology: "", group: "", sample_id: "", parent_1: "", parent_2: "",
+          species_variety: "", phenotype_treatment: "", tissue_sampled: "", date: sydneyDate(),
+          data_location: "", file_prefix: "", project_leaders: "", project_investigators: "",
+          project_id: "", project_details: "", other_notes: "", rdss_location: ""
+        })
+      })
+      .catch(err => setAddMsg("Error: " + (err.response?.data?.detail || "Failed")))
+  }
+
+  const FIELDS = [
+    ["type", "Type"], ["technology", "Technology"], ["group", "Group"],
+    ["sample_id", "Sample ID"], ["parent_1", "Parent 1"], ["parent_2", "Parent 2"],
+    ["species_variety", "Species/Variety"], ["phenotype_treatment", "Phenotype/Treatment"],
+    ["tissue_sampled", "Tissue Sampled"], ["date", "Date"], ["data_location", "Data Location"],
+    ["file_prefix", "File Prefix"], ["project_leaders", "Project Leaders"],
+    ["project_investigators", "Project Investigators"], ["project_id", "Project ID"],
+    ["project_details", "Project Details"], ["other_notes", "Other Notes"],
+    ["rdss_location", "RDSS Location"]
+  ]
+
+  const tabs = [["samples", "🗄️ Delete Sample"], ["add", "➕ Add Sample"], ["sql", "💻 SQL"]]
 
   return (
     <div style={{ maxWidth: 1100, margin: "40px auto", fontFamily: "sans-serif", padding: "0 20px" }}>
@@ -64,6 +103,28 @@ export default function AdminData() {
             </button>
           </div>
           {deleteMsg && <p style={{ color: deleteMsg.startsWith("✓") ? "green" : "red", fontSize: 13 }}>{deleteMsg}</p>}
+        </div>
+      )}
+
+      {activeTab === "add" && (
+        <div>
+          <h3>Add New Sample</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px", marginBottom: 16 }}>
+            {FIELDS.map(([field, label]) => (
+              <div key={field}>
+                <label style={{ display: "block", fontSize: 12, color: "#666", marginBottom: 3 }}>{label}</label>
+                <input
+                  value={newSample[field]}
+                  onChange={e => setNewSample(prev => ({ ...prev, [field]: e.target.value }))}
+                  style={{ width: "100%", padding: "7px 10px", borderRadius: 4, border: "1px solid #ccc", fontSize: 13, boxSizing: "border-box" }}
+                />
+              </div>
+            ))}
+          </div>
+          <button onClick={addSample} style={{ padding: "8px 24px", background: "#27ae60", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
+            Add Sample
+          </button>
+          {addMsg && <p style={{ color: addMsg.startsWith("✓") ? "green" : "red", fontSize: 13, marginTop: 8 }}>{addMsg}</p>}
         </div>
       )}
 
