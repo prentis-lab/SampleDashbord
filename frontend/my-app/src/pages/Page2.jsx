@@ -22,6 +22,7 @@ export default function Page2() {
   const [rows, setRows] = useState([])
   const [editedRows, setEditedRows] = useState({})
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState("")
 
   useEffect(() => {
     API.get("/samples/prefixes").then(res => setPrefixes(res.data))
@@ -44,10 +45,17 @@ export default function Page2() {
   }
 
   const saveAll = async () => {
-    for (const row of rows) {
-      await API.put(`/samples/${row.id}`, editedRows[row.id])
+    setSaved(false)
+    setSaveError("")
+    try {
+      for (const row of rows) {
+        await API.put(`/samples/${row.id}`, editedRows[row.id])
+      }
+      setSaved(true)
+      setTimeout(() => setSaved(false), 4000)
+    } catch (err) {
+      setSaveError(err.response?.data?.detail || "Update failed")
     }
-    setSaved(true)
   }
 
   const filtered = prefixes.filter(p => p.toLowerCase().includes(search.toLowerCase()))
@@ -109,7 +117,8 @@ export default function Page2() {
           }}>
             💾 Update
           </button>
-          {saved && <span style={{ marginLeft: 12, color: "green", fontSize: 13 }}>✓ Saved and exported to example_sample_updated.xlsx</span>}
+          {saved && <span style={{ marginLeft: 12, color: "green", fontSize: 13 }}>✓ Updated successfully</span>}
+          {saveError && <span style={{ marginLeft: 12, color: "red", fontSize: 13 }}>✗ {saveError}</span>}
         </>
       )}
     </div>

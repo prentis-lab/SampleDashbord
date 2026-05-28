@@ -95,8 +95,6 @@ def update_sample(sample_id: int, data: SampleUpdate, db: Session = Depends(get_
         setattr(sample, key, value)
     db.commit()
     db.refresh(sample)
-    # Export updated table to Excel
-    export_updated_excel(db)
     return sample
 
 @router.post("/query")
@@ -113,80 +111,82 @@ def run_query(body: SQLQuery, db: Session = Depends(get_db)):
 
 @router.get("/compare")
 def compare_tables(db: Session = Depends(get_db)):
-    original_path = os.path.join(os.path.dirname(__file__), "../../data/samples.xlsx")
-    updated_path = os.path.join(os.path.dirname(__file__), "../../data/samples_updated.xlsx")
+    csv_path = os.path.join(os.path.dirname(__file__), "../../data/samples.csv")
 
+    if not os.path.exists(csv_path):
+        return {"changes": [], "message": "Original CSV not found in Lambda package"}
 
-    if not os.path.exists(updated_path):
-        return {"changes": [], "message": "No updates made yet"}
-
-    original_df = pd.read_excel(original_path).fillna("")
-    updated_df = pd.read_excel(updated_path).fillna("")
+    # CSV column name → model field name (handles renamed columns like species/variety)
+    COL_MAP = {
+        "type": "type", "technology": "technology", "group": "group",
+        "sample_id": "sample_id", "parent_1": "parent_1", "parent_2": "parent_2",
+        "species/variety": "species_variety", "phenotype/treatment": "phenotype_treatment",
+        "tissue_sampled": "tissue_sampled", "date": "date", "data_location": "data_location",
+        "file_prefix": "file_prefix", "project_leaders": "project_leaders",
+        "project_investigators": "project_investigators", "project_id": "project_id",
+        "project_details": "project_details", "other_notes": "other_notes",
+        "rdss_location": "rdss_location",
+    }
 
     def normalize(val):
         if val is None:
             return ""
         s = str(val).strip()
-        if s.lower() in ("nan", "nat", "none"):
-            return ""
-        if len(s) > 10 and s[10:] == " 00:00:00":
-            return s[:10]
-        return s
+        return "" if s.lower() in ("nan", "nat", "none") else s
+
+    try:
+        orig_df = pd.read_csv(csv_path, encoding="utf-8").fillna("")
+    except UnicodeDecodeError:
+        orig_df = pd.read_csv(csv_path, encoding="latin-1").fillna("")
+    orig_df.columns = [c.strip().lower() for c in orig_df.columns]
+
+    rds_rows = db.query(Sample).order_by(Sample.id).all()
 
     changes = []
-    for i, (orig_row, upd_row) in enumerate(zip(original_df.itertuples(), updated_df.itertuples())):
-        orig_dict = {k: normalize(v) for k, v in orig_row._asdict().items()}
-        upd_dict = {k: normalize(v) for k, v in upd_row._asdict().items()}
-
-        # Skip rows where BOTH original and updated are empty
-        orig_empty = all(v == "" for k, v in orig_dict.items() if k != "Index")
-        upd_empty = all(v == "" for k, v in upd_dict.items() if k != "Index")
-        if orig_empty and upd_empty:
-            continue
-
-        diff = {k: {"original": orig_dict[k], "updated": upd_dict[k]}
-                for k in orig_dict if orig_dict[k] != upd_dict[k] and k != "Index"}
+    for i, rds_row in enumerate(rds_rows):
+        if i >= len(orig_df):
+            break
+        csv_row = orig_df.iloc[i]
+        diff = {}
+        for csv_col, model_field in COL_MAP.items():
+            orig_val = normalize(csv_row.get(csv_col, ""))
+            curr_val = normalize(getattr(rds_row, model_field, ""))
+            if orig_val != curr_val:
+                diff[model_field] = {"original": orig_val, "updated": curr_val}
         if diff:
-            changes.append({"row": i + 1, "sample_id": orig_dict.get("sample_id", ""), "changes": diff})
+            changes.append({"row": i + 1, "sample_id": normalize(getattr(rds_row, "sample_id", "")), "changes": diff})
 
     return {"changes": changes, "total_changes": len(changes)}
 
-def export_updated_excel(db: Session):
-    samples = db.query(Sample).all()
-    data = [{
-        "type": s.type, "technology": s.technology, "group": s.group,
-        "sample_id": s.sample_id, "parent_1": s.parent_1, "parent_2": s.parent_2,
-        "species/variety": s.species_variety, "phenotype/treatment": s.phenotype_treatment,
-        "tissue_sampled": s.tissue_sampled, "date": s.date, "data_location": s.data_location,
-        "file_prefix": s.file_prefix, "project_leaders": s.project_leaders,
-        "project_investigators": s.project_investigators, "project_id": s.project_id,
-        "project_details": s.project_details, "other_notes": s.other_notes,
-        "rdss_location": s.rdss_location
-    } for s in samples]
-    df = pd.DataFrame(data)
-    out_path = os.path.join(os.path.dirname(__file__), "../../data/samples_updated.xlsx")
-    df.to_excel(out_path, index=False)
 
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
+import csv
+import io
 
 @router.get("/download/original")
 def download_original():
-    path = os.path.join(os.path.dirname(__file__), "../../data/samples.xlsx")
+    path = os.path.join(os.path.dirname(__file__), "../../data/samples.csv")
     if not os.path.exists(path):
-        raise HTTPException(status_code=404, detail="Original file not found")
-    return FileResponse(
-        path,
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        filename="samples.xlsx"
-    )
+        raise HTTPException(status_code=404, detail="Original CSV not found in Lambda package")
+    return FileResponse(path, media_type="text/csv", filename="samples_original.csv")
 
 @router.get("/download/updated")
-def download_updated():
-    path = os.path.join(os.path.dirname(__file__), "../../data/samples_updated.xlsx")
-    if not os.path.exists(path):
-        raise HTTPException(status_code=404, detail="No updated file yet — make an edit first")
-    return FileResponse(
-        path,
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        filename="samples_updated.xlsx"
+def download_updated(db: Session = Depends(get_db)):
+    samples = db.query(Sample).order_by(Sample.id).all()
+    fields = [
+        "type", "technology", "group", "sample_id", "parent_1", "parent_2",
+        "species_variety", "phenotype_treatment", "tissue_sampled", "date",
+        "data_location", "file_prefix", "project_leaders", "project_investigators",
+        "project_id", "project_details", "other_notes", "rdss_location"
+    ]
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(fields)
+    for s in samples:
+        writer.writerow([getattr(s, f) or "" for f in fields])
+    buf.seek(0)
+    return StreamingResponse(
+        iter([buf.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=samples_updated.csv"}
     )
