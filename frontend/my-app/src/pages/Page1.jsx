@@ -26,7 +26,9 @@ export default function Page1() {
   }
 
     useEffect(() => {
-    API.get("/samples/filters").then(res => setFilterOptions(res.data))
+    API.get("/samples/filters")
+      .then(res => setFilterOptions(res.data))
+      .catch(err => console.error("Failed to load filter options:", err))
   }, [])
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export default function Page1() {
               <select key={key} value={filters[key]} onChange={e => { setFilters(f => ({ ...f, [key]: e.target.value })); setPage(1) }}
                 style={{ padding: 8, borderRadius: 4, border: "1px solid #ccc" }}>
                 <option value="">All {label}s</option>
-                {(filterOptions[key + "s"] || filterOptions[key + "_ids"] || []).map(v => (
+                {({ type: filterOptions.types, technology: filterOptions.technologies, group: filterOptions.groups, project_id: filterOptions.project_ids }[key] || []).map(v => (
                   <option key={v} value={v}>{v}</option>
                 ))}
               </select>
