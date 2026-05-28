@@ -257,8 +257,7 @@ The response should show `HTTP/2 200` and a certificate issued by Amazon.
   | What | Value | Location |
   |---|---|---|
   | JWT token expiry | 60 minutes | `backend/app/core/security.py` → `ACCESS_TOKEN_EXPIRE_MINUTES = 60` |
-  | Heartbeat interval | every 60 seconds | `frontend/my-app/src/context/AuthContext.jsx` → `setInterval(sendHeartbeat, 60
-  * 1000)` |
+  | Heartbeat interval | every 60 seconds | `frontend/my-app/src/context/AuthContext.jsx` → `setInterval(sendHeartbeat, 60 * 1000)` |
   | Inactivity logout | not implemented | heartbeat fires regardless of user activity |
 
    
