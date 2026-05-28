@@ -17,6 +17,7 @@ class TokenResponse(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: str
+    is_admin: bool
     oauth_provider: Optional[str]
 
     class Config:

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard"
 import Page1 from "./pages/Page1"
 import Page2 from "./pages/Page2"
 import Page3 from "./pages/Page3"
+import { AdminRoute, UserRoute } from "./components/ProtectedRoute"
 
 function App() {
   return (
@@ -17,13 +18,13 @@ function App() {
         <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/admin/data" element={<AdminData />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/page1" element={<Page1 />} />
-        <Route path="/page2" element={<Page2 />} />
-        <Route path="/page3" element={<Page3 />} />
+        <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+        <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+        <Route path="/admin/data" element={<AdminRoute><AdminData /></AdminRoute>} />
+        <Route path="/dashboard" element={<UserRoute><Dashboard /></UserRoute>} />
+        <Route path="/page1" element={<UserRoute><Page1 /></UserRoute>} />
+        <Route path="/page2" element={<UserRoute><Page2 /></UserRoute>} />
+        <Route path="/page3" element={<UserRoute><Page3 /></UserRoute>} />
       </Routes>
     </BrowserRouter>
   )
