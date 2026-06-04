@@ -13,7 +13,15 @@
 ## set RD start on 8am but stop on 3pm on weekday
 scheduler.tf does it. it use eventBridge scheduler the instance
 
-## 
+## security 
+- avoid sql injection:
+- P2SQL Injection: If your backend blindly executes the AI-generated SQL, you could be hacked. Never execute AI-generated SQL directly.
+- Use structured output from the LLM + safe execution.
+- Consider using an agent framework (LangChain, LlamaIndex, etc.) with guardrails.
+- For high-security apps → better to stick with traditional API design (pass filters, not natural language).
+   - Force SELECT-only queries. Use read-only database user.Parse and validate the generated SQL.
+   - Use parameterized queries where possible (though harder with fully dynamic SQL).
+   - Log all generated queries for auditing.
 
 ## Manually start/stop RDS:
 
