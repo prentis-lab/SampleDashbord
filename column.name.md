@@ -2,8 +2,8 @@
 
 | Column Name              | Description                                                                 | Example                                      |
 |--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
-| type                     | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
-| technology               | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
+| mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
+| library              | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
 | group                    | citrus / mango / others                                                     | citrus                                       |
 | sample_id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
 | sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
