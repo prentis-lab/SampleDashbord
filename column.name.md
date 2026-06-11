@@ -30,3 +30,4 @@
 | createdAt       | Date record was created      |
 | updatedAt       | Date record was last updated |
 | importedBy      | User who imported the data   |
+| other plants??    | flexible data structure  |
