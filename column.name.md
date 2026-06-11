@@ -3,7 +3,7 @@
 | Column Name              | Description                                                                 | Example                                      |
 |--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
 | mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
-| library              | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
+| library type          | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
 | group                    | citrus / mango / others                                                     | citrus                                       |
 | sample_id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
 | sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
@@ -31,3 +31,12 @@
 | updatedAt       | Date record was last updated |
 | importedBy      | User who imported the data   |
 | other plants??    | flexible data structure  |
+
+
+#### nottes
+- same sample may sequence with different machine
+- biology table: more flexible
+ - phenoty talbe various : eg. seedless, seeding
+- sequence table: more fixed
+ -sdfds
+- 
