@@ -46,7 +46,7 @@
 | other plants??    | flexible data structure  |
 
 
-#### nottes
+#### notes
 - same sample may sequence with different machine
 - biology table: more flexible
   - phenoty talbe various : eg. seedless, seeding
@@ -54,8 +54,8 @@
   - one plant may multi sample id
 - sequence table: more fixed
   - one sample with multi runs
-- Species/Variety : now item may comming
-- parant to parents 
+- Species/Variety : now item may coming
+- parent to parents 
 
 ### another interface for andrew team
-- input sample information first
+- input sample information single or bulk 
