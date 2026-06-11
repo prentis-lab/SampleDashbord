@@ -38,6 +38,54 @@
 | other plants??    | flexible data structure  |
 
 
+## Project TODO List
+
+### 1. Web Application
+
+- Develop a dedicated interface for Andrew’s team:
+  - Support **single** and **bulk** sample information input
+  - No manual approval needed after data upload
+  - Automatically detect duplicates based on unique `sample_name`
+  - Allow additional sample columns in the UI; the system will automatically combine them into one readable and meaningful string for storage
+
+- User Roles:
+  - Admin
+  - Biologist
+  - Bioinformatician
+  - View-only
+
+- Implement full audit logging:
+  - Record `createdBy`, `updatedBy`, `createdAt`, and `updatedAt` for every record
+
+### 2. Database Table – Sample Information (Biologists)
+
+- Plants have a unique identifier; each **sample** represents a specific block/section/part of a plant
+- Sample names are defined by Andrew’s team
+  - If a sample name does not follow the agreed naming convention, display a warning and prompt the user to link it correctly
+  - **Naming convention example**: `b44r63nrane`
+    - `B` = Block number
+    - `R` = Row number
+    - `T` = Tree number
+    - `S/N/E/W` = Direction (South, North, East, West, etc.)
+
+- Add `sample_collection_date` to help track sample origin
+- Rename `parent` → `parents` (support single or multiple parents)
+- Support multiple values for:
+  - `species/variety`
+  - `phenotype/treatment`
+    - One plant can have multiple samples with different phenotypes or treatments (e.g., seedless vs. seeded)
+
+### 3. Database Table – Sequence Information (Bioinformaticians)
+
+- Record the date when sequence data arrived
+- Support flexible/various downstream pipeline information
+- Allow the same sample to be sequenced multiple times (different machines, technologies, or runs)
+- Store sequence run information separately as it is generally more stable
+
+
+
+
+
 ### todo list
 - web application 
   - another interface for andrew team
