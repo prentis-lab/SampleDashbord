@@ -57,5 +57,18 @@
 - Species/Variety : now item may coming
 - parent to parents 
 
-### another interface for andrew team
-- input sample information single or bulk 
+### todo list
+- web application 
+  - another interface for andrew team
+     - eg. input sample information single or bulk
+     - no need approval after data uploads but check whether it is duplicated or not based on sample name unique or not
+     - list more clolumns for the sample, software will convert them into a single readable and meaningful string
+  - users: admin, biologist, bioinformatics, view only,
+  - record who created, updated these records  
+- DB table for biologist to store sample information
+  - date for sample collection, it can be used to track where the sample from
+  - Species/Variety and phenotype/treatment allows multi value, eg. various treatment with various attributes
+- DB table for bioinformatic to store sequence information
+  - date for sequence data arrived
+  - downstream pipeline information will be various
+  
