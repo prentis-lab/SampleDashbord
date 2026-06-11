@@ -2,7 +2,7 @@
 
 | Column Name              | Description                                                                 | Example                                      |
 |--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
-| type                     | DNA / RNA / UNSORTED                                                        | dna                                          |
+| type                     | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
 | technology               | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
 | group                    | citrus / mango / others                                                     | citrus                                       |
 | sample_id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
