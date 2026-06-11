@@ -5,7 +5,7 @@
 | mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
 | library type          | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
 | group                    | citrus / mango / others                                                     | citrus                                       |
-| sample_id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
+| record id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
 | sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
 | parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
 | parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
@@ -21,7 +21,19 @@
 | project_details          | Additional project details                                                  |                                              |
 | other_notes              | Any other notes                                                             | PTC-generated 21465 seedless variety         |
 | rdss_location            | Research data storage location (different from data_location)               | \\rstore.qut.edu.au\Projects\ULJQSK8720\... |
-| run-id                   | Run ID from sequencing machine (manual input or barcode scan)               |                                              |
+| run-id                   | Run ID from sequencing machine (manual input or barcode scan)               |      eg.          NGS_647_Maiko                              |
+
+### sample name
+- decided by Andrew team, if not follow pattern then show warning
+  - B: block number
+  - R: row number
+  - T: tree number
+  - S/N/E/W: south etc
+- to identify which plant to link
+- eg. eg. b44r63nrane
+- each plant have uniq name, then sample be block of the plant
+- ask the sample name convention/pattern: sample name not always
+
 
 ### Additional Columns (To Do)
 
@@ -36,7 +48,9 @@
 #### nottes
 - same sample may sequence with different machine
 - biology table: more flexible
- - phenoty talbe various : eg. seedless, seeding
+  - phenoty talbe various : eg. seedless, seeding
+  - 2 sample
+  - one plant may multi sample id
 - sequence table: more fixed
- -sdfds
-- 
+  - one sample with multi runs
+- Species/Variety : now item may comming
