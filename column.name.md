@@ -10,7 +10,7 @@
 | parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
 | parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
 | species/variety          | Species or variety (more specific than group)                               | Citrus reticulata (21465)                    |
-| phenotype/treatment      | Phenotype or treatment                                                      | Susceptible                                  |
+| phenotype/treatment      | Phenotype or treatment    (need flixible for more treatment)                                                  | Susceptible                                  |
 | tissue_sampled           | leaf / stem / flower / root / seed / callus / fruit                        | Callus                                       |
 | date                     | Sequence arrival date, analysis date, or record created date                | 45717                                        |
 | data_location            | Sequence data location (file system path)                                   | /work/ePGL/sequencing/dna/illumina/citrus/NGS_647_Maiko |
