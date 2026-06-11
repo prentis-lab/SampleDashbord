@@ -25,15 +25,7 @@
 |-| run-id                   | Run ID from sequencing machine (manual input or barcode scan)               |      eg.          NGS_647_Maiko                              |
 
 ### sample name
-- decided by Andrew team, if not follow pattern then show warning
-  - B: block number
-  - R: row number
-  - T: tree number
-  - S/N/E/W: south etc
-- to identify which plant to link
-- eg. eg. b44r63nrane
-- each plant have uniq name, then sample be block of the plant
-- ask the sample name convention/pattern: sample name not always
+
 
 
 ### Additional Columns (To Do)
@@ -46,17 +38,6 @@
 | other plants??    | flexible data structure  |
 
 
-#### notes
-- same sample may sequence with different machine
-- biology table: more flexible
-  - phenoty talbe various : eg. seedless, seeding
-  - 2 sample
-  - one plant may multi sample id
-- sequence table: more fixed
-  - one sample with multi runs
-- Species/Variety : now item may coming
-- parent to parents 
-
 ### todo list
 - web application 
   - another interface for andrew team
@@ -66,9 +47,21 @@
   - users: admin, biologist, bioinformatics, view only,
   - record who created, updated these records  
 - DB table for biologist to store sample information
+  - plant have uniqe name, then sample may be a block of the plant
+  - sample name will be decided by Andrew team, if not follow pattern then show warning to identify which plant to link
+      -ask the sample name convention/pattern: eg. b44r63nrane
+        - B: block number
+        - R: row number
+        - T: tree number
+        - S/N/E/W: south etc
   - date for sample collection, it can be used to track where the sample from
-  - Species/Variety and phenotype/treatment allows multi value, eg. various treatment with various attributes
+  - change parent to parents, allow single or multi parents
+  - Species/Variety and phenotype/treatment allows multi value, eg. various treatments with various attributes
+      - one plant or plant body may have multi samples, eg. with different treatments
+      - phenoty are various, eg. seedless, seeding
 - DB table for bioinformatic to store sequence information
   - date for sequence data arrived
   - downstream pipeline information will be various
+  - same sample may be sequened by different machine
+  - sequence run infromation are more stable
   
