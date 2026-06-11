@@ -7,14 +7,15 @@
 |-| group                    | citrus / mango / others                                                     | citrus                                       |
 |-| record id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
 | biological| sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
+| biological| notes              | more sample info note                                                            | Juice vesicle cell line #1                   |
 | biological |parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
 | biological| parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
 | biological| species/variety          | Species or variety (more specific than group)                               | Citrus reticulata (21465)                    |
 | biological| phenotype/treatment      | Phenotype or treatment    (need flixible for more treatment)                                                  | Susceptible                                  |
 | biological| tissue_sampled           | leaf / stem / flower / root / seed / callus / fruit                        | Callus                                       |
-| biological| date                     | Sequence arrival date, analysis date, or record created date                | 45717                                        |
+| biological| date                     | when the sample collected                | 45717                                        |
 |-| data_location            | Sequence data location (file system path)                                   | /work/ePGL/sequencing/dna/illumina/citrus/NGS_647_Maiko |
-|-| file_prefix              | Meaningful and unique file prefix                                           | Maiko_1_S1                                   |
+|-| file_prefix              | Meaningful and unique file prefix      (follow pattern)                                     | Maiko_1_S1                                   |
 |-| project_leaders          | Project leaders (multiple allowed)                                          | Andrew Miles; Alexie Papanicolaou; Peter Prentis |
 |-| project_investigators    | Project investigators (first.last format, auto-created from email)          | Maiko Kato / Zachary Stewart                 |
 |-| project_id               | Project identifier                                                          | MaikoHistogenLayers                          |
@@ -55,3 +56,6 @@
   - one sample with multi runs
 - Species/Variety : now item may comming
 - parant to parents 
+
+### another interface for andrew team
+- input sample information first
