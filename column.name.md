@@ -24,10 +24,6 @@
 |-| rdss_location            | Research data storage location (different from data_location)               | \\rstore.qut.edu.au\Projects\ULJQSK8720\... |
 |-| run-id                   | Run ID from sequencing machine (manual input or barcode scan)               |      eg.          NGS_647_Maiko                              |
 
-### sample name
-
-
-
 ### Additional Columns (To Do)
 
 | Column Name     | Description                  |
