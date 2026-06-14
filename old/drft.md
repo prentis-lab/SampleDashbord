@@ -1,4 +1,13 @@
-- composite keys, sort keys, and item types.
+- https://www.youtube.com/watch?v=2k2GINpO308
+    - core concepts: tables, items, attributes, index
+    - often one table, a collection of items
+    - items are collection of attributes (key/value pair), you can choose type, eg string, boolean or complex metadata etc
+    - index/query
+        -  composite keys: primary key: partition key (not unique); sort key (index);
+        -  query by scan one item by one; or
+        - (GSI) global secondary index
+
+- , sort keys, and item types.
 - Partition Key (PK) and Sort Key (SK) must be defined when create table. other attribute no need defined, can change at any time.
 - GSI = Global Secondary Index: "Copy these attributes into a new index and use them as keys"
 - The main table uses PK + SK.
