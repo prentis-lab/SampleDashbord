@@ -1,3 +1,4 @@
+- composite keys, sort keys, and item types. 
 - GSI = Global Secondary Index: "Copy these attributes into a new index and use them as keys"
 - The main table uses PK + SK.
 - You can have up to 20 GSIs per table.
