@@ -1,7 +1,7 @@
 ```mermaid
 erDiagram
     PLANT {
-        string pk "PLANT#plant_id"
+        string PPK "PLANT#plant_id"
         string SK "#METADATA"
         string GSI1PK "TAXON#taxon"
         string GSI1SK "variety#plant_id"
@@ -18,7 +18,7 @@ erDiagram
     }
 
     SAMPLE {
-        string pk "PLANT#plant_id"
+        string PPK "PLANT#plant_id"
         string SK "SAMPLE#date#sample_id"
         string GSI2PK "PROJECT#project_id"
         string GSI2SK "SAMPLE#date#sample_id"
@@ -33,7 +33,7 @@ erDiagram
     }
 
     PROJECT {
-        string pk "PROJECT#project_id"
+        string PPK "PROJECT#project_id"
         string SK "#METADATA"
         string GSI1PK "PROJECT#project_id"
         string description
@@ -42,7 +42,7 @@ erDiagram
     }
 
     DATA {
-        string pk "PLANT#plant_id"
+        string PPK "PLANT#plant_id"
         string SK "DATA#molecule#date#data_id"
         string GSI2PK "PROJECT#project_id"
         string GSI2SK "DATA#molecule#date#data_id"
