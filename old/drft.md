@@ -1,3 +1,4 @@
+```mermaid
 erDiagram
     PLANT {
         string PK "PLANT#plant_id"
@@ -58,3 +59,4 @@ erDiagram
     PLANT ||--o{ DATA : "has many"
     PROJECT ||--o{ SAMPLE : "contains"
     PROJECT ||--o{ DATA : "contains"
+```
