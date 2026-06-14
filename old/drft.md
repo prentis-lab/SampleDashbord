@@ -1,4 +1,5 @@
-- composite keys, sort keys, and item types. 
+- composite keys, sort keys, and item types.
+- Partition Key (PK) and Sort Key (SK) must be defined when create table. other attribute no need defined, can change at any time.
 - GSI = Global Secondary Index: "Copy these attributes into a new index and use them as keys"
 - The main table uses PK + SK.
 - You can have up to 20 GSIs per table.
