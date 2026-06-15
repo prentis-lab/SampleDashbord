@@ -1,6 +1,16 @@
-## purchase
+
+## Enum Definitions Overview
 the EnumDefinition items will be created and stored in DDB, which won't link to any sample/data items, but for web application to validate the input type.
 
+| fieldName              | displayName              | possibleValues                                      | defaultValue   | Description |
+|------------------------|--------------------------|-----------------------------------------------------|----------------|-------------|
+| `tissue_sampled`       | Tissue Sampled           | `leaf`, `stem`, `flower`, `root`, `seed`, `callus`, `fruit` | `leaf`         | Type of plant tissue collected for the sample |
+| `developmental_stage`  | Developmental Stage      | `Mature`, `juvenile`                                | `juvenile`     | Developmental stage of the sample |
+| `sample_purpose`       | Sample Purpose           | `Gene expression experiment`, `Breeding`, `Disease screening`, `Phenotyping`, `Other` | `Other` | Purpose of collecting this sample |
+| `library_type`         | Library Type             | `illumina`, `nanopore`, `HiFi`, `pacbio`, `rnaseq`, `unknown` | `unknown` | Sequencing library preparation type |
+| `molecule`             | Molecule Type            | `DNA`, `RNA`, `unknown`                             | `unknown`      | Type of molecule (DNA or RNA) |
+
+## Enum Definitions Items
 - Tissue Sampled (may rename to tissueFrom)
 ```
 {
