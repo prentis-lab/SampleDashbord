@@ -11,6 +11,17 @@ This page is used to design phenotype item, and link them to samples
 | dwarf                          | wildtype / dwarf / unknown               |
 | short juvenility               | wildtype / short / unknown               |
 
+
+### Phenotype Definitions
+
+| Phenotype Name          | Category              | Possible Values                          | Default Value   |    
+|-------------------------|-----------------------|------------------------------------------|-----------------| 
+| Alternaria brown spot   | Disease Resistance    | susceptible / tolerant / resistant / unknown | susceptible     |  
+| Fruit seed count        | Fruit Quality         | wildtype / reduced / low / unknown       | low             |  
+| Rind colour             | Fruit Appearance      | wildtype / improved / high / unknown     | wildtype        |  
+| dwarf                   | Plant Architecture    | wildtype / dwarf / unknown               | dwarf           | 
+| short juvenility        | Growth Habit          | wildtype / short / unknown               | short           | 
+
 ## create main items
 - item for Alternaria Brown Spot
 ```
@@ -20,7 +31,7 @@ This page is used to design phenotype item, and link them to samples
   "EntityType": "Phenotype",
   "phenotypeName": "Alternaria brown spot",
   "category": "Disease Resistance",
-  "possibleValues": "susceptible/tolerant/resistant/unknown",
+  "possibleValues": ["susceptible", "tolerant", "resistant", "unknown"],
   "defaultValue": "susceptible",
   "displayName": "Alternaria Brown Spot"
 }
@@ -35,7 +46,7 @@ This page is used to design phenotype item, and link them to samples
   "EntityType": "Phenotype",
   "phenotypeName": "Fruit seed count",
   "category": "Fruit Quality",
-  "possibleValues": "wildtype/reduced/low/unknown",
+  "possibleValues": ["wildtype", "reduced", "low", "unknown"],
   "defaultValue": "low",
   "displayName": "Fruit Seed Count"
 }
@@ -49,7 +60,7 @@ This page is used to design phenotype item, and link them to samples
   "EntityType": "Phenotype",
   "phenotypeName": "Rind colour",
   "category": "Fruit Appearance",
-  "possibleValues": "wildtype/improved/high/unknown",
+  "possibleValues": ["wildtype", "improved", "high", "unknown"],
   "defaultValue": "wildtype",
   "displayName": "Rind Colour"
 }
@@ -63,7 +74,7 @@ This page is used to design phenotype item, and link them to samples
   "EntityType": "Phenotype",
   "phenotypeName": "dwarf",
   "category": "Plant Architecture",
-  "possibleValues": "wildtype/dwarf/unknown",
+ "possibleValues": ["wildtype", "dwarf", "unknown"],
   "defaultValue": "dwarf",
   "displayName": "Dwarf"
 }
@@ -77,7 +88,7 @@ This page is used to design phenotype item, and link them to samples
   "EntityType": "Phenotype",
   "phenotypeName": "short juvenility",
   "category": "Growth Habit",
-  "possibleValues": "wildtype/short/unknown",
+  "possibleValues": ["wildtype", "short", "unknown"],
   "defaultValue": "short",
   "displayName": "Short Juvenility"
 }
