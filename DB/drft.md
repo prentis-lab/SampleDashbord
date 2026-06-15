@@ -1,3 +1,4 @@
+## DyanmoDB tutorial
 - https://www.youtube.com/watch?v=2k2GINpO308
     - core concepts: tables, items, attributes, index
     - often one table, a collection of items
@@ -8,6 +9,7 @@
         -  query by scan one item by one; or
         - (GSI) global secondary index: "Copy these attributes into a new index and use them as keys", can be defined at anytime.
           - You can have up to 20 GSIs per table. eg. Add radio to the Plant item (as we discussed before).
+          <Details>
 
            ```
             // Sample Item Example
@@ -53,6 +55,9 @@
             
                 PLANT ||--o{ SAMPLE : "has"
             ```
+            
+          </Details>
+
 
 ## design
 ```mermaid
