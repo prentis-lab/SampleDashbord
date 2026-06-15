@@ -1,8 +1,6 @@
 ## Overview
 This page is used to design Plant item. the values of parent1 and parent2 extracted from excel are
 
-### Parent Items Preparation Table
-
 | #  | baseVariety | parentCode | subType     | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
 |----|-------------|------------|-------------|--------------|-----------------|----------------------------------------------------|----------------|
 | 1  | Murcott     | 21465      | Bud         | true         | -               | 21465 Murcott (irradiated bud)                     | 21465 (irradiated Murcott bud) |
