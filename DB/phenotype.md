@@ -127,3 +127,4 @@ DynamoDB is schemaless — it does not validate attribute names or values. So yo
   - Always double-check attribute names before inserting.
   - Use conditional writes or check first if the item already exists.
   - Consider adding basic validation in your application code before writing to DDB.
+- you could also simplize the linked item, but may have to query second time after get the phenotype details. to increase the query efficiency, it is better to put most frequent access information in the item (Denormalization)
