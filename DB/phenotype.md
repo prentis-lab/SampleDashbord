@@ -11,6 +11,7 @@ This page is used to design phenotype item, and link them to samples
 | dwarf                          | wildtype / dwarf / unknown               |
 | short juvenility               | wildtype / short / unknown               |
 
+## create main items
 - item for Alternaria Brown Spot
 ```
 {
@@ -82,6 +83,7 @@ This page is used to design phenotype item, and link them to samples
 }
 ```
 
+## link itmes
 - example - one sample linked to 2 phenotypes
 ```
 // Link 1 to overwrite the default value
@@ -114,3 +116,14 @@ response = table.query(
 )
 
 ```
+## item validation
+DynamoDB is schemaless — it does not validate attribute names or values. So your item will be stored exactly even if typos exists. eg.
+`"phenotypeNae": "Alternaria brown drawf",   // ← Typo in key name`
+
+- Consequences of typo
+    - Your application code looking for phenotypeName will not find the value
+    - Data is incorrect. Later queries/filters will return wrong results (drawf)
+- Best Practice to Avoid This in Future
+  - Always double-check attribute names before inserting.
+  - Use conditional writes or check first if the item already exists.
+  - Consider adding basic validation in your application code before writing to DDB.
