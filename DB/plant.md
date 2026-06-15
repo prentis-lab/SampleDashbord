@@ -1,5 +1,5 @@
 ## Overview
-This page is used to design Plant item. the values of parent1 and parent2 extracted from excel are
+This page is used to design Plant item. the values of parent1 and parent2 extracted from excel. These items will be linked to sample item.
 
 | #  | baseVariety | parentCode | subType     | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
 |----|-------------|------------|-------------|--------------|-----------------|----------------------------------------------------|----------------|
