@@ -1,29 +1,31 @@
 ## Overview
 This page is used to design Plant item. the values of parent1 and parent2 extracted from excel are
 
-| #  | baseVariety | parentCode | subType           | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
-|----|-------------|------------|-------------------|--------------|-----------------|----------------------------------------------------|----------------|
-| 1  | Murcott     | 21465      | Irradiated Bud    | true         | -               | 21465 (irradiated Murcott bud)                     | 21465 (irradiated Murcott bud) |
-| 2  | Daisy       | -          | -                 | false        | -               | Daisy                                              | Daisy |
-| 3  | Fortune     | -          | -                 | false        | -               | Fortune                                            | Fortune |
-| 4  | Grace       | -          | Irradiated Seed   | true         | -               | Grace (irradiated seed)                            | Grace (irradiated seed) |
-| 5  | Grace       | -          | Seed              | false        | -               | Grace (seed)                                       | Grace (seed) |
-| 6  | Grace       | -          | Mother            | false        | -               | Grace Mother                                       | Grace Mother |
-| 7  | Grace       | -          | Seedling          | false        | -               | Grace seedling                                     | Grace seedling |
-| 8  | Minneola    | -          | -                 | false        | -               | Minneola                                           | Minneola |
-| 9  | Murcott     | -          | -                 | false        | -               | Murcott                                            | Murcott |
-| 10 | Murcott     | -          | Irradiated Bud    | true         | -               | Murcott (irradiated bud)                           | Murcott (irradiated bud) |
-| 11 | Murcott     | -          | Irradiated Bud    | true         | 35Gy            | Murcott (irradiated bud) 35Gy                      | Murcott (irradiated bud) Irradiation dose 35Gy |
-| 12 | Murcott     | -          | Irradiated Bud    | true         | 45Gy            | Murcott (irradiated bud) 45Gy                      | Murcott (irradiated bud) Irradiation dose 45Gy |
-| 13 | Murcott     | -          | Irradiated Bud    | true         | 55Gy            | Murcott (irradiated bud) 55Gy                      | Murcott (irradiated bud) Irradiation dose 55Gy |
-| 14 | Murcott     | -          | Irradiated Bud    | true         | 65Gy            | Murcott (irradiated bud) 65Gy                      | Murcott (irradiated bud) Irradiation dose 65Gy |
-| 15 | Murcott     | -          | Irradiated Bud    | true         | 75Gy            | Murcott (irradiated bud) 75Gy                      | Murcott (irradiated bud) Irradiation dose 75Gy |
-| 16 | Murcott     | -          | Irradiated Seed   | true         | -               | Murcott (irradiated seed)                          | Murcott (irradiated seed) |
-| 17 | Murcott     | -          | Irradiated        | true         | -               | Murcott (irradiated)                               | Murcott (irradiated) |
-| 18 | Nova        | -          | -                 | false        | -               | Nova                                               | Nova |
-| 19 | Phoenix     | -          | Irradiated Bud    | true         | -               | Phoenix (Irradiated bud)                           | Phoenix (Irradiated bud) |
-| 20 | Phoenix     | -          | Irradiated Seed   | true         | -               | Phoenix (irradiated seed)                          | Phoenix (irradiated seed) |
-| 21 | Murcott     | -          | Wild Type         | false        | -               | WT Murcott                                         | WT Murcott |
+### Parent Items Preparation Table
+
+| #  | baseVariety | parentCode | subType     | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
+|----|-------------|------------|-------------|--------------|-----------------|----------------------------------------------------|----------------|
+| 1  | Murcott     | 21465      | Bud         | true         | -               | 21465 Murcott (irradiated bud)                     | 21465 (irradiated Murcott bud) |
+| 2  | Daisy       | -          | -           | false        | -               | Daisy                                              | Daisy |
+| 3  | Fortune     | -          | -           | false        | -               | Fortune                                            | Fortune |
+| 4  | Grace       | -          | Seed        | true         | -               | Grace (irradiated seed)                            | Grace (irradiated seed) |
+| 5  | Grace       | -          | Seed        | false        | -               | Grace (seed)                                       | Grace (seed) |
+| 6  | Grace       | -          | Mother      | false        | -               | Grace Mother                                       | Grace Mother |
+| 7  | Grace       | -          | Seedling    | false        | -               | Grace seedling                                     | Grace seedling |
+| 8  | Minneola    | -          | -           | false        | -               | Minneola                                           | Minneola |
+| 9  | Murcott     | -          | -           | false        | -               | Murcott                                            | Murcott |
+| 10 | Murcott     | -          | Bud         | true         | -               | Murcott (irradiated bud)                           | Murcott (irradiated bud) |
+| 11 | Murcott     | -          | Bud         | true         | 35Gy            | Murcott (irradiated bud) 35Gy                      | Murcott (irradiated bud) Irradiation dose 35Gy |
+| 12 | Murcott     | -          | Bud         | true         | 45Gy            | Murcott (irradiated bud) 45Gy                      | Murcott (irradiated bud) Irradiation dose 45Gy |
+| 13 | Murcott     | -          | Bud         | true         | 55Gy            | Murcott (irradiated bud) 55Gy                      | Murcott (irradiated bud) Irradiation dose 55Gy |
+| 14 | Murcott     | -          | Bud         | true         | 65Gy            | Murcott (irradiated bud) 65Gy                      | Murcott (irradiated bud) Irradiation dose 65Gy |
+| 15 | Murcott     | -          | Bud         | true         | 75Gy            | Murcott (irradiated bud) 75Gy                      | Murcott (irradiated bud) Irradiation dose 75Gy |
+| 16 | Murcott     | -          | Seed        | true         | -               | Murcott (irradiated seed)                          | Murcott (irradiated seed) |
+| 17 | Murcott     | -          | -  | true         | -               | Murcott (irradiated)                               | Murcott (irradiated) |
+| 18 | Nova        | -          | -           | false        | -               | Nova                                               | Nova |
+| 19 | Phoenix     | -          | Bud         | true         | -               | Phoenix (Irradiated bud)                           | Phoenix (Irradiated bud) |
+| 20 | Phoenix     | -          | Seed        | true         | -               | Phoenix (irradiated seed)                          | Phoenix (irradiated seed) |
+| 21 | Murcott     | -          | Wild Type   | false        | -               | WT Murcott                                         | WT Murcott |
 
 
 ## items
