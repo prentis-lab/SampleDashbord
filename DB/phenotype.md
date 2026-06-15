@@ -1,13 +1,13 @@
 ## overview 
 This page is used to design phenotype item, and link them to plant (maybe sample).
 
-|phenotype| Description          | Category              | Possible Values                          | Default Value   |    
-|---|-------------------------|-----------------------|------------------------------------------|-----------------| 
-|abs| Alternaria brown spot   | Disease Resistance    | susceptible / tolerant / resistant | susceptible     |  
-|seed| Fruit seed count        | Fruit Quality         | wildtype / reduced / low      | low             |  
-|rind| Rind colour             | Fruit Appearance      | wildtype / improved / high   | wildtype        |  
-|dwarf| dwarf                   | Plant Architecture    | wildtype / dwarf               | dwarf           | 
-|juvenility| short juvenility        | Growth Habit          | wildtype / short              | short           | 
+|phenotype| Description          | Category              | Possible Values                          |  
+|---|-------------------------|-----------------------|------------------------------------------| 
+|abs| Alternaria brown spot   | Disease Resistance    | susceptible / tolerant / resistant |  
+|seed| Fruit seed count        | Fruit Quality         | wildtype / reduced / low      |  
+|rind| Rind colour             | Fruit Appearance      | wildtype / improved / high   | 
+|dwarf| dwarf                   | Plant Architecture    | wildtype / dwarf               |  
+|juvenility| short juvenility        | Growth Habit          | wildtype / short              |  
 
 ## create main items
 - item for Alternaria Brown Spot
