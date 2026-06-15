@@ -1,5 +1,5 @@
 ## overview 
-This page is used to design phenotype item, and link them to samples
+This page is used to design phenotype item, and link them to plant (maybe sample).
 
 | Phenotype Name          | Category              | Possible Values                          | Default Value   |    
 |-------------------------|-----------------------|------------------------------------------|-----------------| 
