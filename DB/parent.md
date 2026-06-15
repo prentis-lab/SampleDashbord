@@ -32,8 +32,8 @@ around 20 items will be created, each items with compulsary attributes, eg.
 
 ```
 {
-  "MYPK": "PARENT#Murcott#21466",           // Best balance
-  "MYSK": "#METADATA",
+  "pKey": "PARENT#Murcott#21466",           // Best balance
+  "sKey": "#METADATA",
   "EntityType": "Parent",
   
   "baseVariety": "Murcott",
@@ -54,8 +54,8 @@ around 20 items will be created, each items with compulsary attributes, eg.
 ```
 
 {
-  "MYPK": "PARENT#Grace#Mother",
-  "MYSK": "#METADATA",
+  "pKey": "PARENT#Grace#Mother",
+  "sKey": "#METADATA",
   "EntityType": "Parent",
   "baseVariety": "Grace",
   "displayName": "Grace Mother",
