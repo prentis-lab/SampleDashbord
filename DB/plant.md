@@ -1,5 +1,5 @@
 ## Overview
-This page is used to design Parent item. the values of parent1 and parent2 extracted from excel are
+This page is used to design Plant item. the values of parent1 and parent2 extracted from excel are
 ```
 .	.
 21465 (irradiated Murcott bud)	.
@@ -28,13 +28,14 @@ WT Murcott	.
 ## items
 around 20 items will be created, each items with compulsary attributes, eg.
 
-- Parent item for "Murcott (irradiated bud)	Irradiation dose 75Gy", (assume code is 21466)
+- Plant item for "Murcott (irradiated bud)	Irradiation dose 75Gy", (assume code is 21466)
 
 ```
 {
-  "pKey": "PARENT#Murcott#21466",           // Best balance
+  "pKey": "PLANT#Murcott#21466",           // Best balance
   "sKey": "#METADATA",
-  "EntityType": "Parent",
+  "EntityType": "Plant",
+  "GenusSpecies":"Citrus reticulata x Citrus sinensis"
   
   "baseVariety": "Murcott",
   "parentCode": "21466",
@@ -49,14 +50,15 @@ around 20 items will be created, each items with compulsary attributes, eg.
 
 }
 ```
-- Parent item for "Grace Mother" missing parentCode, createdBy, isIrradiated etc. But it is ok in DDB
+- Plant item for "Grace Mother" missing parentCode, createdBy, isIrradiated etc. But it is ok in DDB
   
 ```
 
 {
-  "pKey": "PARENT#Grace#Mother",
+  "pKey": "PLANT#Grace#Mother",
   "sKey": "#METADATA",
-  "EntityType": "Parent",
+  "EntityType": "Plant",
+  "GenusSpecies":"Citrus reticulata x Citrus sinensis"
   "baseVariety": "Grace",
   "displayName": "Grace Mother",
   "subType": "Mother"
