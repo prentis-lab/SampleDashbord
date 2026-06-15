@@ -59,7 +59,7 @@ around 20 items will be created, each items with compulsary attributes, eg.
   "pKey": "PLANT#Grace#Mother",
   "sKey": "#METADATA",
   "EntityType": "Plant",
-  "GenusSpecies":"Citrus reticulata x Citrus sinensis"
+  "GenusSpecies/taxon":"Citrus reticulata x Citrus sinensis"
   "baseVariety": "Grace",
   "displayName": "Grace Mother",
   "subType": "Mother"
