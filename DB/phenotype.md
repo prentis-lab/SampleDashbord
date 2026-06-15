@@ -1,19 +1,6 @@
 ## overview 
 This page is used to design phenotype item, and link them to samples
 
-- possible phenotype are
-
-| Phenotype                      | Possible Values                          |
-|--------------------------------|------------------------------------------|
-| Alternaria brown spot          | susceptible / tolerant / resistant / unknown |
-| Fruit seed count               | wildtype / reduced / low / unknown      |
-| Rind colour                    | wildtype / improved / high / unknown    |
-| dwarf                          | wildtype / dwarf / unknown               |
-| short juvenility               | wildtype / short / unknown               |
-
-
-### Phenotype Definitions
-
 | Phenotype Name          | Category              | Possible Values                          | Default Value   |    
 |-------------------------|-----------------------|------------------------------------------|-----------------| 
 | Alternaria brown spot   | Disease Resistance    | susceptible / tolerant / resistant / unknown | susceptible     |  
