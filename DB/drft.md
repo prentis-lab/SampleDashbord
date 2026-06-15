@@ -59,6 +59,16 @@
           </Details>
 
 
+- Most Common Patterns for Keys in DynamoDB
+
+| Pattern                    | Example                                   | When to Use |
+|---------------------------|-------------------------------------------|-------------|
+| `ENTITY#ID`               | `PHENOTYPE#Alternaria-Brown-Spot`         | Main entity record |
+| `ENTITY#ID#SUBTYPE`       | `PARENT#Murcott#21465`                    | Composite keys (when more specificity is needed) |
+| `VALUE#specificvalue`     | `VALUE#unknown`                           | Different values / variants of the same entity |
+| `#METADATA`               | `#METADATA`                               | Main/core record of an entity |
+| `RELATION#TargetID`       | `SAMPLE#S456`                             | Relationship / link items |
+
 ## design
 ```mermaid
 erDiagram
