@@ -59,7 +59,7 @@ the EnumDefinition items will be created and stored in DDB, which won't link to 
 
 ```
 
--Molecule Type
+- Molecule Type
 ```
  {
   "PartitionKey": "METADATA#Enum#molecule",
