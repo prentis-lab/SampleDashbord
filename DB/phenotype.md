@@ -81,3 +81,36 @@ This page is used to design phenotype item, and link them to samples
   "displayName": "Short Juvenility"
 }
 ```
+
+- example - one sample linked to 2 phenotypes
+```
+// Link 1 to overwrite the default value
+{
+  "PartitionKey": "SAMPLE#S12345",
+  "SortKey": "PHENOTYPE#Alternaria-Brown-Spot",
+  "EntityType": "SamplePhenotype",
+  "phenotypeName": "Alternaria brown spot",
+  "value": "tolerant"
+}
+
+// Link 2 to use default value
+{
+  "PartitionKey": "SAMPLE#S12345",
+  "SortKey": "PHENOTYPE#Dwarf",
+  "EntityType": "SamplePhenotype",
+  "phenotypeName": "dwarf",
+}
+
+```
+- example of query: Get one Sample + All its Phenotypes
+
+```
+response = table.query(
+    KeyConditionExpression="PartitionKey = :pk AND begins_with(SortKey, :prefix)",
+    ExpressionAttributeValues={
+        ":pk": "SAMPLE#S12345",
+        ":prefix": "PHENOTYPE#"
+    }
+)
+
+```
