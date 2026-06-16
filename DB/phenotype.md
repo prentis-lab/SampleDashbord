@@ -13,15 +13,18 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - item for Alternaria Brown Spot
 ```
 {
-  "pKey": "PHENOTYPE#Alternaria-Brown-Spot",
+  "pKey": "PHENOTYPE#ABS#PH00001",
   "sKey": "#METADATA",
   "EntityType": "Phenotype",
-  "phenotypeName": "Alternaria brown spot",
+  "phenotypeName": "ABS",
   "phenotypeCode": "PH00001",
   "category": "Disease Resistance",
   "possibleValues": ["susceptible", "tolerant", "resistant", "unknown"],
   "defaultValue": "susceptible",
-  "displayName": "Alternaria Brown Spot"
+  "displayName": "PH0001 ABS (Alternaria Brown Spot)"
+  "createdAt": "2026-06-15T...",
+  "createdBy": "USER#AM",
+  "importedBy": "USER#Christina_xu"
 }
 
 ```
@@ -29,15 +32,19 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - Fruit Seed Count
 ```
 {
-  "pKey": "PHENOTYPE#Fruit-Seed-Count",
+  "pKey": "PHENOTYPE#seed#PH00010",
   "sKey": "#METADATA",
   "EntityType": "Phenotype",
-  "phenotypeName": "Fruit seed count",
+  "phenotypeName": "seed",
   "phenotypeCode": "PH00010",
   "category": "Fruit Quality",
   "possibleValues": ["wildtype", "reduced", "low", "unknown"],
   "defaultValue": "low",
-  "displayName": "Fruit Seed Count"
+  "displayName": "PH00010 seed (Fruit Seed Count)"
+  "createdAt": "2026-06-15T...",
+  "createdBy": "USER#AM",
+  "importedBy": "USER#Christina_xu"
+
 }
 ```
 

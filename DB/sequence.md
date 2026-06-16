@@ -5,9 +5,11 @@ there are about 600 sequence data including 10 of them without sample id or name
 ## item
 ```
 {
-  "PartitionKey": "SEQUENCE#NGS-498-5_S5",
-  "SortKey": "#METADATA",
-  "EntityType": "SequenceData",
+  "pKey": "SEQUENCE#NGS-498-5_S5",
+  "sKey": "#METADATA",
+  "entityType": "SequenceData",
+  "dataId":"SE00a600",
+
   "sample": "SAMPLE#NGS-498-5_S5",    //link
   "project":"PROJECT#HistogenLayersGenome2#PR00020" // (Denormalization)
   "plant": "PLANT#Murcott#21466",    // denormalization
