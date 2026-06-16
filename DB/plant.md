@@ -1,7 +1,7 @@
 ## Overview
-This page is used to design Plant item. the values of parent1 and parent2 extracted from excel. These items will be linked to sample item.
+This page is used to design Plant item. the values of plant1 and plant2 extracted from excel. These items will be linked to sample item.
 
-| #  | baseVariety | parentCode | subType     | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
+| #  | baseVariety | plantCode | subType     | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
 |----|-------------|------------|-------------|--------------|-----------------|----------------------------------------------------|----------------|
 | 1  | Murcott     | 21465      | Bud         | true         | -               | 21465 Murcott (irradiated bud)                     | 21465 (irradiated Murcott bud) |
 | 2  | Daisy       | -          | -           | false        | -               | Daisy                                              | Daisy |
@@ -39,7 +39,7 @@ around 20 items will be created, each items with compulsary attributes, eg.
   "GenusSpecies":"Citrus reticulata x Citrus sinensis"
   
   "baseVariety": "Murcott",
-  "parentCode": "21466",
+  "plantCode": "21466",
   "displayName": "21466 Murcott Bud (Irradiation dose 75Gy)",
   "isIrradiated": true,
   "subType": "Bud",
@@ -51,7 +51,7 @@ around 20 items will be created, each items with compulsary attributes, eg.
 
 }
 ```
-- Plant item for "Grace Mother" missing parentCode, createdBy, isIrradiated etc. But it is ok in DDB
+- Plant item for "Grace Mother" missing plantCode, createdBy, isIrradiated etc. But it is ok in DDB
   
 ```
 
