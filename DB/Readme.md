@@ -7,15 +7,15 @@ graph TD
     Plant[PLANT#PL21466<br/>Citrus reticulata x Citrus sinensis]
 
     %% Phenotypes for the Plant
-    Plant -->|has phenotype| Pheno1[PHENOTYPE#PH00001<br/>ABS (Alternaria Brown Spot)]
-    Plant -->|has phenotype| Pheno2[PHENOTYPE#PH00010<br/>seed (Fruit Seed Count)]
+    Plant -->|has phenotype| Pheno1[PHENOTYPE#PH00001<br/> ABS: Alternaria Brown Spot]
+    Plant -->|has phenotype| Pheno2[PHENOTYPE#PH00010<br/> seed: Fruit Seed Count]
 
     %% Samples derived from Plant
     Plant -->|derived from| Sample1[SAMPLE#S00060<br/>11.6.26-1<br/>leaf, juvenile]
     Plant -->|derived from| Sample2[SAMPLE#S00061<br/>Example sample 2]
 
     %% Sample → Sequences
-    Sample1 -->|has| Seq1[SEQUENCE#SEQ001<br/>Nanopore reads - Grace variety]
+    Sample1 -->|has| Seq1[SEQUENCE#SEQ001<br/>rnaseq - Juice vesicle cell line #1]
     Sample1 -->|has| Seq2[SEQUENCE#SEQ002<br/>Nanopore reads - Murcott variety]
 
     Sample2 -->|has| Seq3[SEQUENCE#SEQ003<br/>Additional sequencing data]
