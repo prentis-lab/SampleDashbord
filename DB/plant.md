@@ -1,5 +1,5 @@
 ## Overview
-This page is used to design Plant item. the values of plant1 and plant2 extracted from excel. These items will be linked to sample item.
+This page is used to design Plant item. the values of plant1 and plant2 extracted from excel. These items will be linked to sample item. <Details>
 
 | #  | baseVariety | plantCode | subType     | isIrradiated | irradiationDose | Suggested displayName                              | Original Entry |
 |----|-------------|------------|-------------|--------------|-----------------|----------------------------------------------------|----------------|
@@ -25,6 +25,7 @@ This page is used to design Plant item. the values of plant1 and plant2 extracte
 | 20 | Phoenix     | -          | Seed        | true         | -               | Phoenix (irradiated seed)                          | Phoenix (irradiated seed) |
 | 21 | Murcott     | -          | Wild Type   | false        | -               | WT Murcott                                         | WT Murcott |
 
+ </Details>
 
 ## items
 around 20 items will be created, each items with compulsary attributes, eg.
@@ -52,20 +53,23 @@ around 20 items will be created, each items with compulsary attributes, eg.
 }
 ```
 - Plant item for "Grace Mother" missing plantCode, createdBy, isIrradiated etc. But it is ok in DDB
+<Details>
   
-```
+  ```
+  {
+    "pKey": "PLANT#Grace#Mother",
+    "sKey": "#METADATA",
+    "EntityType": "Plant",
+    "GenusSpecies/taxon":"Citrus reticulata x Citrus sinensis"
+    "baseVariety": "Grace",
+    "displayName": "Grace Mother",
+    "subType": "Mother"
+    "importedBy": "USER#christina_xu"
+  }
+  ```
 
-{
-  "pKey": "PLANT#Grace#Mother",
-  "sKey": "#METADATA",
-  "EntityType": "Plant",
-  "GenusSpecies/taxon":"Citrus reticulata x Citrus sinensis"
-  "baseVariety": "Grace",
-  "displayName": "Grace Mother",
-  "subType": "Mother"
-  "importedBy": "USER#christina_xu"
-}
-```
+</Details>
+
 ## link items
 assume PLANT#PL21466 have two phenotype: 
 - Link 1: Plant → ABS Phenotype
@@ -113,7 +117,7 @@ assume PLANT#PL21466 have two phenotype:
   ```
 
   ## Denormalization
-  above query only returns the plant details and the relationship details; You do NOT get the full Phenotype definition (e.g. possibleValues, category, etc.) in this query. Here you can store the most often quried information in the linked item called denormalize, hence you don't need do a `BatchGetItem` to fetch full phenotype items. Denormalization should be automatic to avoid typos and keep data consistent.
+  above query only returns the plant details and the relationship details; You do NOT get the full Phenotype definition (e.g. possibleValues, category, etc.) in this query. Here you can store the most often quried information in the linked item called denormalize, hence you don't need do a `BatchGetItem` to fetch full phenotype items. Denormalization should be automatic to avoid typos and keep data consistent. <Details>
   ```
     def link_plant_to_phenotype(plant_id: str, phenotype_id: str, phenotype_value: str):
       # Step 1: Get full Phenotype details
@@ -141,3 +145,4 @@ assume PLANT#PL21466 have two phenotype:
       table.put_item(Item=link_item)
       print(f"Linked Plant {plant_id} to Phenotype {phenotype_id} with value '{phenotype_value}'")
   ```
+</Details>
