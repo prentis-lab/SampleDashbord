@@ -33,14 +33,14 @@ around 20 items will be created, each items with compulsary attributes, eg.
 
 ```
 {
-  "pKey": "PLANT#Murcott#21466", 
+  "pKey": "PLANT#PL21466", 
   "sKey": "#METADATA",
   "EntityType": "Plant",
   "GenusSpecies":"Citrus reticulata x Citrus sinensis"
   
   "baseVariety": "Murcott",
-  "plantCode": "21466",
-  "displayName": "21466 Murcott Bud (Irradiation dose 75Gy)",
+  "plantCode": "PL21466",
+  "displayName": "PL21466 Murcott Bud (Irradiation dose 75Gy)",
   "isIrradiated": true,
   "subType": "Bud",
   "irradiationDose": "75Gy"
