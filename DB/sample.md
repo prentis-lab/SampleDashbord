@@ -9,8 +9,8 @@ there are about 600 samples including 10 of them without sample id or name. eg.
   "SortKey": "#METADATA",
   "EntityType": "Sample",
   "filePrefix/sampleLabel": "NGS-498-5_S5",
-  "plant": "PLANT#Murcott#21466",
-  "project":"PROJECT#HistogenLayersGenome2#PR00020"
+  "plant": "PLANT#Murcott#21466",    //link
+  "project":"PROJECT#HistogenLayersGenome2#PR00020" //link
 
   "tissueFrom": "leaf",
   "developStage": "juvenile"
