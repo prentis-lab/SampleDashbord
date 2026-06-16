@@ -38,10 +38,10 @@
     "displayName": "PR00020 (HistogenLayers Genome 2)"
     "description": "Genome assembly of grace and murcott varieties with nanopore reads "
     "leaders": ["AM", "AP", "PP"],
-    "team":["USER#christina_xu", "USER#Zachary_Stewart"]
+    "team":["USER#Christina_xu", "USER#Zachary_Stewart"]
     "createdAt": "2026-06-15T...",
-    "createdBy": "Zachary_Stewart",
-    "importedBy": "USER#christina_xu"
+    "createdBy": "USER#Zachary_Stewart",
+    "importedBy": "USER#Christina_xu"
   }
 
 ```
