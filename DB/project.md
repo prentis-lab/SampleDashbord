@@ -11,7 +11,7 @@
 - item for HistogenLayersGenome2 project
 ```
   {
-    "pKey": "PROJECT#HistogenLayersGenome2#PR00020",
+    "pKey": "PROJECT#PR00020",
     "sKey": "#METADATA",
     "EntityType": "Project",
     "projectName": "HistogenLayersGenome2",
