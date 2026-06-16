@@ -17,14 +17,17 @@
   └── .github/workflows/       # CI/CD
 ```
 
+- Use Terraform to manage production infrastructure
+- Use Local DynamoDB + simple scripts for development
+  
 ## local set up for development
 Step-by-step Setup
 
 - Install Local DynamoDBBash# Using Docker (easiest)
 `docker run -p 8000:8000 amazon/dynamodb-local`
-- Create Dev Table
+- Create Dev Table: Use AWS CLI pointed to local endpoint:
 ```
-Use AWS CLI pointed to local endpoint:Bashaws dynamodb create-table \
+aws dynamodb create-table \
   --table-name BioData \
   --attribute-definitions AttributeName=PartitionKey,AttributeType=S \
   --key-schema AttributeName=PartitionKey,KeyType=HASH AttributeName=SortKey,KeyType=RANGE \
