@@ -1,7 +1,7 @@
 # Sample Metadata Columns
 
 |Items| Column Name              | Description                                                                 | Example                                      |
-|-|--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
+|----------------------------------|--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
 |sequence/data (molecule)| mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
 |sequence/data (library)| library type          | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
 |project (group)| group                    | citrus / mango / others                                                     | citrus                                       |
