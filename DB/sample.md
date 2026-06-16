@@ -86,5 +86,17 @@ graph TD
     "createdBy": "USER#christina_xu"
   }
  ```
+- Sample -> sequence Data
 
+```
+  {
+    "pKey": "SAMPLE#S00060",
+    "sKey": "SEQUENCE#SE00a600",
+    "EntityType": "SampleSequence",
+    "sequencer": "rnaseq",  //denormalization
+    "createdAt": "2026-06-16T...",
+    "createdBy": "USER#christina_xu"
+  }
+
+```
 
