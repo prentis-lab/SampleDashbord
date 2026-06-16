@@ -7,3 +7,6 @@ dna	illumina	citrus	Grace_Daughter2	.	.	Citrus reticulata	.	Seedling of irradiat
 dna	illumina	citrus	Grace_Mother - not 100% sure of this sample	.	.	Citrus reticulata	.	.	Oct-22	/work/ePGL/sequencing/dna/illumina/citrus/NGS_450_Pete_citrus	Grace-Mother	Andrew Miles; Alexie Papanicolaou; Peter Prentis	.	HistogenLayers1	histogen layers	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-10-01 NGS_450_Pete_citrus WGS
 dna	illumina	citrus	P4_A3_Ct26_305_S46	.	.	grace sister plant	probably susceptible	.	Jan-22	/work/ePGL/sequencing/dna/illumina/citrus/Citrus_Raw_PP_Public_220117	P4_A3_Ct26_305_S46	Andrew Miles; Peter Prentis	.	.	CitrusUnsure2	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-01-01 Citrus_Raw_PP_Public_220117 WGS
 dna	illumina	citrus	P4_A4_Ct34_313_S104	.	.	grace sister plant	probably susceptible	.	Jan-22	/work/ePGL/sequencing/dna/illumina/citrus/Citrus_Raw_PP_Public_220117	P4_A4_Ct34_313_S104	Andrew Miles; Peter Prentis	.	.	CitrusUnsure2	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-01-01 Citrus_Raw_PP_Public_220117 WGS
+
+## item
+
