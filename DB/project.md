@@ -27,4 +27,22 @@
 | AM; PP          | -                     | Unsure4                     | - |
 | AM; PP          | MK                    | MaikoMurcottWildType        | - |
 
+- item for HistogenLayersGenome2 project
+```
+  {
+    "pKey": "PROJECT#HistogenLayersGenome2#PR00020",
+    "sKey": "#METADATA",
+    "EntityType": "Project",
+    "projectName": "HistogenLayersGenome2",
+    "projectCode": "PR00020",
+    "displayName": "PR00020 (HistogenLayers Genome 2)"
+    "description": "Genome assembly of grace and murcott varieties with nanopore reads "
+    "leaders": ["AM", "AP", "PP"],
+    "team":["USER#christina_xu", "USER#Zachary_Stewart"]
+    "createdAt": "2026-06-15T...",
+    "createdBy": "Zachary_Stewart",
+    "importedBy": "USER#christina_xu"
+  }
+
+```
 
