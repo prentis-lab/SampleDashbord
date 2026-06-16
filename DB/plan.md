@@ -17,8 +17,9 @@
   └── .github/workflows/       # CI/CD
 ```
 
-- Use Terraform to manage production infrastructure
-- Use Local DynamoDB + simple scripts for development
+- For local development → Use Local DynamoDB (Docker) + simple scripts
+- For real testing / staging → Use dev.tfvars to deploy a real dev table on AWS
+- For production → Use prod.tfvars
   
 ## local set up for development
 Step-by-step Setup
