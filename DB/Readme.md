@@ -7,8 +7,8 @@ graph TD
     Plant[PLANT#PL21466<br/>Citrus reticulata x Citrus sinensis]
 
     %% Phenotypes for the Plant
-    Plant -->|has phenotype| Pheno1[PHENOTYPE#PH001<br/>Fruit: High sugar, easy-peel]
-    Plant -->|has phenotype| Pheno2[PHENOTYPE#PH002<br/>Tree: Vigorous growth, good yield]
+    Plant -->|has phenotype| Pheno1[PHENOTYPE#PH00001<br/>ABS (Alternaria Brown Spot)]
+    Plant -->|has phenotype| Pheno2[PHENOTYPE#PH00010<br/>seed (Fruit Seed Count)]
 
     %% Samples derived from Plant
     Plant -->|derived from| Sample1[SAMPLE#S00060<br/>11.6.26-1<br/>leaf, juvenile]
