@@ -20,6 +20,7 @@
     "description": "Genome assembly of grace and murcott varieties with nanopore reads "
     "leaders": ["AM", "AP", "PP"],
     "team":["USER#Maiko_Kato", "USER#Zachary_Stewart"]
+    "analysisId":"analysis pipeline",
     "createdAt": "2026-06-15T...",
     "createdBy": "USER#Zachary_Stewart",
     "importedBy": "USER#Christina_xu"
