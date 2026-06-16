@@ -2,18 +2,17 @@
 
 |belongs| Column Name              | Description                                                                 | Example                                      |
 |-|--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
-|-| mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
-|-| library type          | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
+|sequence/data (molecule)| mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
+|sequence/data (library)| library type          | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
 |-| group                    | citrus / mango / others                                                     | citrus                                       |
-|-| record id                | UUID (0-9, a-z, 10 characters)                                              | (e.g. `a1b2c3d4e5`)                          |
-| biological| sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
-| biological| notes              | more sample info note                                                            | Juice vesicle cell line #1                   |
-| biological |parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
-| biological| parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
-| biological| species/variety          | Species or variety (more specific than group)                               | Citrus reticulata (21465)                    |
-| biological| phenotype/treatment      | Phenotype or treatment    (need flixible for more treatment)                                                  | Susceptible                                  |
-| biological| tissue_sampled           | leaf / stem / flower / root / seed / callus / fruit                        | Callus                                       |
-| biological| date                     | when the sample collected                | 45717                                        |
+| sample (sampleName)| sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
+| sample (notes)| notes              | more sample info note                                                            | Juice vesicle cell line #1                   |
+| plant (displayName etc) |parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
+| plant (subType, irradiationDose etc)| parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
+| plant (taxon or GenusSpecies)| species/variety          | Species or variety (more specific than group)                               | Citrus reticulata (21465)                    |
+| phenotype | phenotype/treatment      | Phenotype or treatment    (need flixible for more treatment)                                                  | Susceptible                                  |
+| sample (tissue or tissueFrom)| tissue_sampled           | leaf / stem / flower / root / seed / callus / fruit                        | Callus                                       |
+| sample (collectOn)| date                     | when the sample collected                | 45717                                        |
 |-| data_location            | Sequence data location (file system path)                                   | /work/ePGL/sequencing/dna/illumina/citrus/NGS_647_Maiko |
 |-| file_prefix              | Meaningful and unique file prefix      (follow pattern)                                     | Maiko_1_S1                                   |
 |-| project_leaders          | Project leaders (multiple allowed)                                          | Andrew Miles; Alexie Papanicolaou; Peter Prentis |
