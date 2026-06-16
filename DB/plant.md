@@ -67,4 +67,36 @@ around 20 items will be created, each items with compulsary attributes, eg.
 }
 ```
 ## link items
-assume PLANT#PL21466 have two phenotype 
+assume PLANT#PL21466 have two phenotype: 
+- Link 1: Plant → ABS Phenotype
+  ```
+    {
+      "pKey": "PLANT#21466",
+      "sKey": "PHENOTYPE#PH00001",
+      "EntityType": "PlantPhenotype",
+      "relationshipType": "hasPhenotype",
+      "createdAt": "2026-06-16T...",
+      "createdBy": "USER#christina_xu"
+    }
+  ```
+- Link 2: Plant → Seed Phenotype
+  ```
+    {
+        "pKey": "PLANT#21466",
+        "sKey": "PHENOTYPE#PH00010",
+        "EntityType": "PlantPhenotype",
+        "relationshipType": "hasPhenotype",
+        "createdAt": "2026-06-16T...",
+        "createdBy": "USER#christina_xu"
+    }
+  ```
+  - QUery: Get Plant + All its Phenotypes
+  ```
+    response = table.query(
+        KeyConditionExpression="pKey = :pk AND begins_with(sKey, :prefix)",
+        ExpressionAttributeValues={
+            ":pk": "PLANT#21466",
+            ":prefix": "PHENOTYPE#"
+        }
+    )
+  ```
