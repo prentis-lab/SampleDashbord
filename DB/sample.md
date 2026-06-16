@@ -5,12 +5,14 @@ there are about 600 samples including 10 of them without sample id or name. eg.
 ## item
 ```
 {
-  "PartitionKey": "SAMPLE#NGS-498-5_S5",
-  "SortKey": "#METADATA",
+  "pKey": "SAMPLE#S00060",
+  "sKey": "#METADATA",
   "EntityType": "Sample",
-  "filePrefix/sampleLabel": "NGS-498-5_S5",
-  "plant": "PLANT#Murcott#21466",    //link
-  "project":"PROJECT#HistogenLayersGenome2#PR00020" //link
+  "sampleCode": "S00060",
+  "sampleLabel":"11.6.26-1",
+
+  "plant": "PLANT#PL21466",    //link
+  "project":"PROJECT#PR00020", //link
 
   "tissueFrom": "leaf",
   "developStage": "juvenile"
@@ -25,6 +27,4 @@ there are about 600 samples including 10 of them without sample id or name. eg.
   "importedBy": "USER#christina_xu"
 }
 ```
-  "libraryType/sequencer": "rnaseq",
-  "molecule": "RNA",
-  "hpcLocation": "/work/ePGL/sequencing/rna/rnaseq/citrus/Pete_NGS_498",
+
