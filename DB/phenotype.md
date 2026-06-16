@@ -42,7 +42,7 @@ This page is used to design phenotype item, and link them to plant (maybe sample
   "phenotypeCode": "PH00010",
   "phenotypeName": "seed",
   "description":  "Fruit Seed Count",
-  "displayName": "PH00010 seed (Fruit Seed Count)",
+  "displayName": "seed (Fruit Seed Count)",
   "category": "Fruit Quality",
   "possibleValues": ["wildtype", "reduced", "low", "unknown"],
   "defaultValue": "low",
