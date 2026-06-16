@@ -1,5 +1,9 @@
 ## load sample to DDB
-there are about 600 samples including 10 of them without sample id or name. eg.
+there are about 600 samples including 10 of them without sample id or name.
+- sample can only link to one plant
+- sample can link to multi projects, and multi sequence data
+- sequence data can only link to one sample
+- one plant can has multi-phenotype; one phenotyp item can link to many plant
 
 
 ## item
