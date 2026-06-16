@@ -34,5 +34,5 @@ aws dynamodb create-table \
   --billing-mode PAY_PER_REQUEST \
   --endpoint-url http://localhost:8000
 ```
--Run Your Backend
+- Run Your Backend
 `Configure your app to connect to http://localhost:8000`
