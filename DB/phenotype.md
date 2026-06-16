@@ -13,16 +13,19 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - item for Alternaria Brown Spot
 ```
 {
-  "pKey": "PHENOTYPE#ABS#PH00001",
+  "pKey": "PHENOTYPE#PH00001",        
   "sKey": "#METADATA",
   "EntityType": "Phenotype",
-  "phenotypeName": "ABS",
+  
   "phenotypeCode": "PH00001",
+  "phenotypeName": "ABS",
+  "displayName": "ABS (Alternaria Brown Spot)",
+  "description": "Alternaria Brown Spot",
   "category": "Disease Resistance",
   "possibleValues": ["susceptible", "tolerant", "resistant", "unknown"],
   "defaultValue": "susceptible",
-  "displayName": "PH0001 ABS (Alternaria Brown Spot)"
-  "createdAt": "2026-06-15T...",
+  
+  "createdAt": "2026-06-16T...",
   "createdBy": "USER#AM",
   "importedBy": "USER#Christina_xu"
 }
