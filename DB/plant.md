@@ -74,7 +74,8 @@ assume PLANT#PL21466 have two phenotype:
       "pKey": "PLANT#21466",
       "sKey": "PHENOTYPE#PH00001",
       "EntityType": "PlantPhenotype",
-      "relationshipType": "hasPhenotype",
+      "phenotypeValue": "tolerant",
+      "displayName": "ABS (Alternaria Brown Spot)",
       "createdAt": "2026-06-16T...",
       "createdBy": "USER#christina_xu"
     }
@@ -99,4 +100,44 @@ assume PLANT#PL21466 have two phenotype:
             ":prefix": "PHENOTYPE#"
         }
     )
+  ```
+  it will return
+  ```
+    {
+      "Items": [
+        { "pKey": "PLANT#21466", "sKey": "#METADATA", "EntityType": "Plant", ... },           // The Plant itself
+        { "pKey": "PLANT#21466", "sKey": "PHENOTYPE#PH00001", "EntityType": "PlantPhenotype", "phenotypeValue": "tolerant", ... },
+        { "pKey": "PLANT#21466", "sKey": "PHENOTYPE#PH00010", "EntityType": "PlantPhenotype", "phenotypeValue": "low", ... }
+      ]
+    }
+  ```
+
+  ## Denormalization
+  above query only returns the plant details and the relationship details; You do NOT get the full Phenotype definition (e.g. possibleValues, category, etc.) in this query. Here you can store the most often quried information in the linked item called denormalize, hence you don't need do a `BatchGetItem` to fetch full phenotype items. Denormalization should be automatic to avoid typos and keep data consistent.
+  ```
+    def link_plant_to_phenotype(plant_id: str, phenotype_id: str, phenotype_value: str):
+      # Step 1: Get full Phenotype details
+      phenotype = table.get_item(
+          Key={"pKey": f"PHENOTYPE#{phenotype_id}", "sKey": "#METADATA"}
+      )['Item']
+      
+      # Step 2: Create relationship item with denormalized data
+      link_item = {
+          "pKey": f"PLANT#{plant_id}",
+          "sKey": f"PHENOTYPE#{phenotype_id}",
+          "EntityType": "PlantPhenotype",
+          
+          "phenotypeValue": phenotype_value,
+          
+          # Denormalized fields (copied automatically)
+          "phenotypeName": phenotype.get("phenotypeName"),
+          "displayName": phenotype.get("displayName"),
+          "category": phenotype.get("category"),
+          
+          "createdAt": "2026-06-16T...",
+          "createdBy": "USER#christina_xu"
+      }
+      
+      table.put_item(Item=link_item)
+      print(f"Linked Plant {plant_id} to Phenotype {phenotype_id} with value '{phenotype_value}'")
   ```
