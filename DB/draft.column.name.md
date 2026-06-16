@@ -4,24 +4,25 @@
 |----------------------------------|--------------------------|-----------------------------------------------------------------------------|----------------------------------------------|
 |sequence/data (molecule)| mollecure                   | DNA / RNA  (unsorted as warning)                                                   | dna                                          |
 |sequence/data (library)| library type          | illumina / nanopore / HiFi / pacbio / rnaseq / unknown                     | illumina                                     |
-|project (group)| group                    | citrus / mango / others                                                     | citrus                                       |
-| sample (sampleName)| sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
-| sample (notes)| notes              | more sample info note                                                            | Juice vesicle cell line #1                   |
-| plant (displayName etc) |parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
-| plant (subType, irradiationDose etc)| parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
-| plant (taxon or GenusSpecies)| species/variety          | Species or variety (more specific than group)                               | Citrus reticulata (21465)                    |
-| phenotype | phenotype/treatment      | Phenotype or treatment    (need flixible for more treatment)                                                  | Susceptible                                  |
-| sample (tissue or tissueFrom)| tissue_sampled           | leaf / stem / flower / root / seed / callus / fruit                        | Callus                                       |
-| sample (collectOn)| date                     | when the sample collected                | 45717                                        |
+|sequence/data (rdssLocation)| rdss_location            | Research data storage location (different from data_location)               | \\rstore.qut.edu.au\Projects\ULJQSK8720\... |
+|sequence/data (runId)| run-id                   | Run ID from sequencing machine (manual input or barcode scan)               |      eg.          NGS_647_Maiko                              |
 |sequence/data (hpcLocation)| data_location            | Sequence data location (file system path)                                   | /work/ePGL/sequencing/dna/illumina/citrus/NGS_647_Maiko |
 |sequence/data (filePrefix)| file_prefix              | Meaningful and unique file prefix      (follow pattern)                                     | Maiko_1_S1                                   |
+| sample (sampleName)| sample_name              | Any pattern                                                                 | Juice vesicle cell line #1                   |
+| sample (notes)| notes              | more sample info note                                                            | Juice vesicle cell line #1                   |
+| sample (tissue or tissueFrom)| tissue_sampled           | leaf / stem / flower / root / seed / callus / fruit                        | Callus                                       |
+| sample (collectOn)| date                     | when the sample collected                | 45717                                        |
 |project (leader)| project_leaders          | Project leaders (multiple allowed)                                          | Andrew Miles; Alexie Papanicolaou; Peter Prentis |
 |project (team)| project_investigators    | Project investigators (first.last format, auto-created from email)          | Maiko Kato / Zachary Stewart                 |
 |project (projectName)| project_id               | Project identifier                                                          | MaikoHistogenLayers                          |
 |project (description)| project_details          | Additional project details                                                  |                                              |
+|project (group)| group                    | citrus / mango / others                                                     | citrus                                       |
+| plant (displayName etc) |parent_1                 | Parent 1                                                                    | Murcott (irradiated)                         |
+| plant (subType, irradiationDose etc)| parent_2                 | Parent 2 (both, single, or empty)                                           | .                                            |
+| plant (taxon or GenusSpecies)| species/variety          | Species or variety (more specific than group)                               | Citrus reticulata (21465)                    |
+| phenotype | phenotype/treatment      | Phenotype or treatment    (need flixible for more treatment)                                                  | Susceptible                                  |
+
 |-| other_notes              | Any other notes                                                             | PTC-generated 21465 seedless variety         |
-|sequence/data (rdssLocation)| rdss_location            | Research data storage location (different from data_location)               | \\rstore.qut.edu.au\Projects\ULJQSK8720\... |
-|sequence/data (runId)| run-id                   | Run ID from sequencing machine (manual input or barcode scan)               |      eg.          NGS_647_Maiko                              |
 
 ### Additional Columns (To Do)
 
