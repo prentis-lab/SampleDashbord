@@ -5,10 +5,11 @@ there are about 600 sequence data including 10 of them without sample id or name
 ## item
 ```
 {
-  "pKey": "SEQUENCE#NGS-498-5_S5",
+  "pKey": "SEQUENCE#SE00a600",
   "sKey": "#METADATA",
   "entityType": "SequenceData",
-  "dataId":"SE00a600",
+  "SequenceId":"SE00a600",
+  "runId": "???"
 
   "sample": "SAMPLE#NGS-498-5_S5",    //link
   "project":"PROJECT#HistogenLayersGenome2#PR00020" // (Denormalization)
