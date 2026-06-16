@@ -15,8 +15,8 @@ there are about 600 samples including 10 of them without sample id or name.
   "sampleCode": "S00060",
   "sampleLabel":"11.6.26-1",
 
-  "plant": "PLANT#PL21466",    //link
-  "project":"PROJECT#PR00020", //link
+  "plantId": "PLANT#PL21466",    // only one plant
+  "projectIds": ["PROJECT#PR00020", "PROJECT#PR00025"],  // Optional list
 
   "tissueFrom": "leaf",
   "developStage": "juvenile"
