@@ -4,7 +4,7 @@
 
 graph TD
     %% Top Level - Plant
-    Plant[PLANT#PL21466<br/>Citrus reticulata x Citrus sinensis]
+    Plant[PLANT#PL21466<br/>Murcott Bud Irradiation dose 75Gy]
 
     %% Phenotypes for the Plant
     Plant -->|has phenotype| Pheno1[PHENOTYPE#PH00001<br/> ABS: Alternaria Brown Spot]
