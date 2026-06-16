@@ -33,7 +33,7 @@ around 20 items will be created, each items with compulsary attributes, eg.
 
 ```
 {
-  "pKey": "PLANT#Murcott#21466",           // Best balance
+  "pKey": "PLANT#Murcott#21466", 
   "sKey": "#METADATA",
   "EntityType": "Plant",
   "GenusSpecies":"Citrus reticulata x Citrus sinensis"
