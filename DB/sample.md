@@ -1,12 +1,28 @@
 ## load sample to DDB
 there are about 600 samples including 10 of them without sample id or name. eg.
-rna	rnaseq	citrus	.	WT Murcott	.	.	Mature leaf 1	.	Mar-23	/work/ePGL/sequencing/rna/rnaseq/citrus/Pete_NGS_498	NGS-498-4_S4	Andrew Miles; Alexie Papanicoloau; Peter Prentis	.	HistogenLayersUnsure1	.	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2023-03-01 Pete_NGS_498 RNAseq
-rna	rnaseq	citrus	.	WT Murcott	.	.	Mature leaf 2	.	Mar-23	/work/ePGL/sequencing/rna/rnaseq/citrus/Pete_NGS_498	NGS-498-5_S5	Andrew Miles; Alexie Papanicoloau; Peter Prentis	.	HistogenLayersUnsure1	.	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2023-03-01 Pete_NGS_498 RNAseq
-dna	illumina	citrus	Grace_Daughter1	.	.	Citrus reticulata	.	Seedling of irradiated plant	Oct-22	/work/ePGL/sequencing/dna/illumina/citrus/NGS_450_Pete_citrus	Grace-D1	Andrew Miles; Alexie Papanicolaou; Peter Prentis	.	HistogenLayers1	histogen layers	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-10-01 NGS_450_Pete_citrus WGS
-dna	illumina	citrus	Grace_Daughter2	.	.	Citrus reticulata	.	Seedling of irradiated plant	Oct-22	/work/ePGL/sequencing/dna/illumina/citrus/NGS_450_Pete_citrus	Grace-D2	Andrew Miles; Alexie Papanicolaou; Peter Prentis	.	HistogenLayers1	histogen layers	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-10-01 NGS_450_Pete_citrus WGS
-dna	illumina	citrus	Grace_Mother - not 100% sure of this sample	.	.	Citrus reticulata	.	.	Oct-22	/work/ePGL/sequencing/dna/illumina/citrus/NGS_450_Pete_citrus	Grace-Mother	Andrew Miles; Alexie Papanicolaou; Peter Prentis	.	HistogenLayers1	histogen layers	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-10-01 NGS_450_Pete_citrus WGS
-dna	illumina	citrus	P4_A3_Ct26_305_S46	.	.	grace sister plant	probably susceptible	.	Jan-22	/work/ePGL/sequencing/dna/illumina/citrus/Citrus_Raw_PP_Public_220117	P4_A3_Ct26_305_S46	Andrew Miles; Peter Prentis	.	.	CitrusUnsure2	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-01-01 Citrus_Raw_PP_Public_220117 WGS
-dna	illumina	citrus	P4_A4_Ct34_313_S104	.	.	grace sister plant	probably susceptible	.	Jan-22	/work/ePGL/sequencing/dna/illumina/citrus/Citrus_Raw_PP_Public_220117	P4_A4_Ct34_313_S104	Andrew Miles; Peter Prentis	.	.	CitrusUnsure2	.	\\rstore.qut.edu.au\Projects\ULJQSK8720\Superior Concepts CRC Program\WGS Data - to be sorted\2022-01-01 Citrus_Raw_PP_Public_220117 WGS
+
 
 ## item
+```
+{
+  "PartitionKey": "SAMPLE#NGS-498-5_S5",
+  "SortKey": "#METADATA",
+  "EntityType": "Sample",
+  "filePrefix/sampleLabel": "NGS-498-5_S5",
+  "plant": "PLANT#Murcott#21466",
+  "project":"PROJECT#HistogenLayersGenome2#PR00020"
+  "notes": "Juice vesicle cell line #1"
+  "tissueFrom": "leaf",
+  "collectedOn": "2023-03",
+  "location": "Bay 3, Row 6, Tree 52 south"
+  "country":"Florida",
+  "collectedBy":"Andrew Miles",
 
+  "createdAt": "2026-06-16T...",
+  "createdBy": "USER#Zachary_Stewart",
+  "importedBy": "USER#christina_xu"
+}
+```
+  "libraryType/sequencer": "rnaseq",
+  "molecule": "RNA",
+  "hpcLocation": "/work/ePGL/sequencing/rna/rnaseq/citrus/Pete_NGS_498",
