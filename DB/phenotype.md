@@ -35,19 +35,21 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - Fruit Seed Count
 ```
 {
-  "pKey": "PHENOTYPE#seed#PH00010",
+  "pKey": "PHENOTYPE#PH00010",
   "sKey": "#METADATA",
   "EntityType": "Phenotype",
-  "phenotypeName": "seed",
+  
   "phenotypeCode": "PH00010",
+  "phenotypeName": "seed",
+  "description":  "Fruit Seed Count",
+  "displayName": "PH00010 seed (Fruit Seed Count)",
   "category": "Fruit Quality",
   "possibleValues": ["wildtype", "reduced", "low", "unknown"],
   "defaultValue": "low",
-  "displayName": "PH00010 seed (Fruit Seed Count)"
-  "createdAt": "2026-06-15T...",
+  
+  "createdAt": "2026-06-16T...",
   "createdBy": "USER#AM",
   "importedBy": "USER#Christina_xu"
-
 }
 ```
 
