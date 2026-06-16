@@ -26,6 +26,81 @@ This page is used to design Plant item. the values of plant1 and plant2 extracte
 | 21 | Murcott     | -          | Wild Type   | false        | -               | WT Murcott                                         | WT Murcott |
 
  </Details>
+ 
+## diagram
+
+```mermaid
+erDiagram
+    PLANT {
+        string pKey "PLANT#PL21466"
+        string sKey "#METADATA"
+        string EntityType "Plant"
+        string GenusSpecies "Citrus reticulata x Citrus sinensis"
+        string baseVariety "Murcott"
+        string plantCode "PL21466"
+        string displayName "PL21466 Murcott Bud (Irradiation dose 75Gy)"
+        boolean isIrradiated "true"
+        string subType "Bud"
+        string irradiationDose "75Gy"
+        string createdAt "2026-06-15T..."
+        string createdBy "Andrew Miles"
+        string importedBy "USER#christina_xu"
+    }
+
+    PHENOTYPE_ABS {
+        string pKey "PHENOTYPE#PH00001"
+        string sKey "#METADATA"
+        string EntityType "Phenotype"
+        string phenotypeCode "PH00001"
+        string phenotypeName "ABS"
+        string displayName "ABS (Alternaria Brown Spot)"
+        string category "Disease Resistance"
+        string possibleValues "susceptible, tolerant, resistant, unknown"
+        string defaultValue "susceptible"
+        string createdAt "2026-06-16T..."
+        string createdBy "USER#AM"
+        string importedBy "USER#Christina_xu"
+    }
+
+    PHENOTYPE_SEED {
+        string pKey "PHENOTYPE#PH00010"
+        string sKey "#METADATA"
+        string EntityType "Phenotype"
+        string phenotypeCode "PH00010"
+        string phenotypeName "seed"
+        string displayName "PH00010 seed (Fruit Seed Count)"
+        string category "Fruit Quality"
+        string possibleValues "wildtype, reduced, low, unknown"
+        string defaultValue "low"
+        string createdAt "2026-06-16T..."
+        string createdBy "USER#AM"
+        string importedBy "USER#Christina_xu"
+    }
+
+    LINK_ABS {
+        string pKey "PLANT#21466"
+        string sKey "PHENOTYPE#PH00001"
+        string EntityType "PlantPhenotype"
+        string phenotypeValue "tolerant"
+        string createdAt "2026-06-16T..."
+        string createdBy "USER#christina_xu"
+    }
+
+    LINK_SEED {
+        string pKey "PLANT#21466"
+        string sKey "PHENOTYPE#PH00010"
+        string EntityType "PlantPhenotype"
+        string createdAt "2026-06-16T..."
+        string createdBy "USER#christina_xu"
+    }
+
+    PLANT ||--o{ LINK_ABS : "has"
+    LINK_ABS }o--|| PHENOTYPE_ABS : "links to"
+    
+    PLANT ||--o{ LINK_SEED : "has"
+    LINK_SEED }o--|| PHENOTYPE_SEED : "links to"
+```
+
 
 ## items
 around 20 items will be created, each items with compulsary attributes, eg.
