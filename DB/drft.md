@@ -57,8 +57,7 @@
             ```
             
           </Details>
-
-
+  
 - Most Common Patterns for Keys in DynamoDB
 
 | Pattern                    | Example                                   | When to Use |
@@ -68,6 +67,11 @@
 | `VALUE#specificvalue`     | `VALUE#unknown`                           | Different values / variants of the same entity |
 | `#METADATA`               | `#METADATA`                               | Main/core record of an entity |
 | `RELATION#TargetID`       | `SAMPLE#S456`                             | Relationship / link items |
+
+## QUERY
+- GSI:  The old 500k items (without GSI attributes) → still fully queryable using the main table (Partition Key + Sort Key). Queries remain fast.The new 500k items (with GSI attributes) → can be queried using either the main table or the new GSI.
+    - Important:Old items will not appear in queries against the new GSI unless they have the required GSI key attributes.
+-backfill: For old items, run a script to backfill the GSI attributes (add the necessary GSI key fields).
 
 ## design
 ```mermaid
