@@ -66,3 +66,5 @@ around 20 items will be created, each items with compulsary attributes, eg.
   "importedBy": "USER#christina_xu"
 }
 ```
+## link items
+assume PLANT#PL21466 have two phenotype 
