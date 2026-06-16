@@ -13,10 +13,11 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - item for Alternaria Brown Spot
 ```
 {
-  "PartitionKey": "PHENOTYPE#Alternaria-Brown-Spot",
-  "SortKey": "#METADATA",
+  "pKey": "PHENOTYPE#Alternaria-Brown-Spot",
+  "sKey": "#METADATA",
   "EntityType": "Phenotype",
   "phenotypeName": "Alternaria brown spot",
+  "phenotypeCode": "PH00001",
   "category": "Disease Resistance",
   "possibleValues": ["susceptible", "tolerant", "resistant", "unknown"],
   "defaultValue": "susceptible",
@@ -28,10 +29,11 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - Fruit Seed Count
 ```
 {
-  "PartitionKey": "PHENOTYPE#Fruit-Seed-Count",
-  "SortKey": "#METADATA",
+  "pKey": "PHENOTYPE#Fruit-Seed-Count",
+  "sKey": "#METADATA",
   "EntityType": "Phenotype",
   "phenotypeName": "Fruit seed count",
+  "phenotypeCode": "PH00010",
   "category": "Fruit Quality",
   "possibleValues": ["wildtype", "reduced", "low", "unknown"],
   "defaultValue": "low",
@@ -42,8 +44,8 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - item of Rind Colour
 ```
 {
-  "PartitionKey": "PHENOTYPE#Rind-Colour",
-  "SortKey": "#METADATA",
+  "pKey": "PHENOTYPE#Rind-Colour",
+  "sKey": "#METADATA",
   "EntityType": "Phenotype",
   "phenotypeName": "Rind colour",
   "category": "Fruit Appearance",
@@ -56,8 +58,8 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - item of Dwarf
 ```
 {
-  "PartitionKey": "PHENOTYPE#Dwarf",
-  "SortKey": "#METADATA",
+  "pKey": "PHENOTYPE#Dwarf",
+  "sKey": "#METADATA",
   "EntityType": "Phenotype",
   "phenotypeName": "dwarf",
   "category": "Plant Architecture",
@@ -70,8 +72,8 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 - item of Short Juvenility
 ```
 {
-  "PartitionKey": "PHENOTYPE#Short-Juvenility",
-  "SortKey": "#METADATA",
+  "pKey": "PHENOTYPE#Short-Juvenility",
+  "sKey": "#METADATA",
   "EntityType": "Phenotype",
   "phenotypeName": "short juvenility",
   "category": "Growth Habit",
@@ -86,8 +88,8 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 ```
 // Link 1 to overwrite the default value
 {
-  "PartitionKey": "SAMPLE#S12345",
-  "SortKey": "PHENOTYPE#Alternaria-Brown-Spot",
+  "pKey": "SAMPLE#S12345",
+  "sKey": "PHENOTYPE#Alternaria-Brown-Spot",
   "EntityType": "SamplePhenotype",
   "phenotypeName": "Alternaria brown spot",
   "value": "tolerant"
@@ -95,8 +97,8 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 
 // Link 2 to use default value
 {
-  "PartitionKey": "SAMPLE#S12345",
-  "SortKey": "PHENOTYPE#Dwarf",
+  "pKey": "SAMPLE#S12345",
+  "sKey": "PHENOTYPE#Dwarf",
   "EntityType": "SamplePhenotype",
   "phenotypeName": "dwarf",
 }
@@ -106,7 +108,7 @@ This page is used to design phenotype item, and link them to plant (maybe sample
 
 ```
 response = table.query(
-    KeyConditionExpression="PartitionKey = :pk AND begins_with(SortKey, :prefix)",
+    KeyConditionExpression="pKey = :pk AND begins_with(sKey, :prefix)",
     ExpressionAttributeValues={
         ":pk": "SAMPLE#S12345",
         ":prefix": "PHENOTYPE#"
