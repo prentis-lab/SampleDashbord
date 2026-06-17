@@ -34,10 +34,10 @@ there are about 600 samples including 10 of them without sample id or name.
         string collectedOn "2023-03"
         string location "Bay 3, Row 6, Tree 52 south"
         string country "Florida"
-        string collectedBy "Andrew Miles"
+        string collectedBy "AM"
         string notes "Juice vesicle cell line #1"
         string createdAt "2026-06-16T..."
-        string createdBy "USER#Zachary_Stewart"
+        string createdBy "USER#ZS"
         string importedBy "USER#christina_xu"
     }
 
@@ -66,10 +66,10 @@ there are about 600 samples including 10 of them without sample id or name.
   "collectedOn": "2023-03",
   "location": "Bay 3, Row 6, Tree 52 south"
   "country":"Florida",
-  "collectedBy":"Andrew Miles",
+  "collectedBy":"AM",
   "notes": "Juice vesicle cell line #1"
   "createdAt": "2026-06-16T...",
-  "createdBy": "USER#Zachary_Stewart",
+  "createdBy": "USER#ZS",
   "importedBy": "USER#christina_xu"
 }
 ```

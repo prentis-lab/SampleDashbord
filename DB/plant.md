@@ -43,7 +43,7 @@ erDiagram
         string subType "Bud"
         string irradiationDose "75Gy"
         string createdAt "2026-06-15T..."
-        string createdBy "Andrew Miles"
+        string createdBy "AM"
         string importedBy "USER#christina_xu"
     }
 
@@ -122,7 +122,7 @@ around 20 items will be created, each items with compulsary attributes, eg.
   "irradiationDose": "75Gy"
 
   "createdAt": "2026-06-15T...",
-  "createdBy": "Andrew Miles",
+  "createdBy": "AM",
   "importedBy": "USER#christina_xu"
 
 }

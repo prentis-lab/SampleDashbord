@@ -19,10 +19,10 @@ item for HistogenLayersGenome2 project, eg. <details>
     "displayName": "PR00020 (HistogenLayers Genome 2)"
     "description": "Genome assembly of grace and murcott varieties with nanopore reads "
     "leaders": ["AM", "AP", "PP"],
-    "team":["USER#Maiko_Kato", "USER#Zachary_Stewart"]
+    "team":["USER#MK", "USER#ZS"]
     "analysisId":"analysis pipeline",
     "createdAt": "2026-06-15T...",
-    "createdBy": "USER#Zachary_Stewart",
+    "createdBy": "USER#ZS",
     "importedBy": "USER#Christina_xu"
   }
 
@@ -45,10 +45,10 @@ erDiagram
         string displayName "PR00020 (HistogenLayers Genome 2)"
         string description "Genome assembly of grace and murcott varieties with nanopore reads"
         string leaders "AM, AP, PP"
-        string team "Maiko_Kato, Zachary_Stewart"
+        string team "MK, ZS"
         string analysisId "analysis pipeline"
         string createdAt "2026-06-15T..."
-        string createdBy "USER#Zachary_Stewart"
+        string createdBy "USER#ZS"
         string importedBy "USER#Christina_xu"
     }
 
@@ -60,12 +60,12 @@ erDiagram
         string runId "???"
         string libraryType_sequencer "rnaseq"
         string molecule "RNA"
-        string hpcLocation "/local/ePGL/sequencing/rna/data/ok/Pete_NGS_498"
-        string rdssLocation "\\rstore.edu.au\Projects\...\2025-03-01 NGS_AAA_444 WGS"
+        string hpcLocation "/local/pp/sequencing/rna/data/ok/567"
+        string rdssLocation "\\rstore\Projects\...\2025-03-01 NGS_AAA_444 WGS"
         string md5_runid "..."
         string notes "Juice vesicle cell line #1"
         string createdAt "2026-06-16T..."
-        string createdBy "USER#Zachary_Stewart"
+        string createdBy "USER#ZS"
         string importedBy "USER#christina_xu"
     }
 
