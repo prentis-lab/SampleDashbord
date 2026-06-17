@@ -1,5 +1,5 @@
 ### Project List
-- so far there are about25 projects, eg.
+- so far there are about25 projects:
 
 | project_leaders | project_investigators | project_id                  | project_details |
 |-----------------|-----------------------|-----------------------------|-----------------|
@@ -8,7 +8,7 @@
 | AM; AP; PP      | ZS                    | HistogenLayers5             | DGE of grace/murcott citrus varieties when exposed to pathogen |
 | AM; PP          | MK                    | MaikoMurcottWildType        | - |
 
-- item for HistogenLayersGenome2 project
+item for HistogenLayersGenome2 project, eg. <details>
 ```
   {
     "pKey": "PROJECT#PR00020",
@@ -28,6 +28,8 @@
 
 ```
 
+ </details>
+ 
 ## diagram
 ```mermaid
 erDiagram
