@@ -30,11 +30,11 @@ Step-by-step Setup
 - Create Dev Table: Use AWS CLI pointed to local endpoint:
 ```
 aws dynamodb create-table \
-  --table-name BioData \
-  --attribute-definitions AttributeName=PartitionKey,AttributeType=S \
-  --key-schema AttributeName=PartitionKey,KeyType=HASH AttributeName=SortKey,KeyType=RANGE \
-  --billing-mode PAY_PER_REQUEST \
-  --endpoint-url http://localhost:8000
+     --table-name citrus \
+     --attribute-definitions AttributeName=pKey,AttributeType=S AttributeName=sKey,AttributeType=S \
+     --key-schema AttributeName=pKey,KeyType=HASH AttributeName=sKey,KeyType=RANGE \
+     --billing-mode PAY_PER_REQUEST \
+     --endpoint-url http://localhost:8000
 ```
 - Run Your Backend
 `Configure your app to connect to http://localhost:8000`
