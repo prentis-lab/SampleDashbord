@@ -5,15 +5,11 @@ there are about 600 sequence data including 10 of them without sample id or name
 ## item
 ```
 {
-  "pKey": "SEQUENCE#SE00a600",
+  "pKey": "SEQUENCE#SE00002",
   "sKey": "#METADATA",
   "entityType": "SequenceData",
-  "SequenceId":"SE00a600",
+  "SequenceId":"SE00002",
   "runId": "???"
-
-  "sample": "SAMPLE#NGS-498-5_S5",    //link
-  "project":"PROJECT#HistogenLayersGenome2#PR00020" // (Denormalization)
-  "plant": "PLANT#Murcott#21466",    // denormalization
 
   "libraryType/sequencer": "rnaseq",
   "molecule": "RNA",
