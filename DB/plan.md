@@ -25,7 +25,8 @@
 Step-by-step Setup
 
 - Install Local DynamoDBBash# Using Docker (easiest)
-`docker run -p 8000:8000 amazon/dynamodb-local`
+  - `docker pull amazon/dynamodb-local`
+  - `docker run -p 8000:8000 amazon/dynamodb-local`
 - Create Dev Table: Use AWS CLI pointed to local endpoint:
 ```
 aws dynamodb create-table \
