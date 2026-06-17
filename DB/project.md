@@ -32,6 +32,7 @@
 ```mermaid
 erDiagram
     PROJECT ||--o{ SEQUENCE : "contains"
+    PROJECT ||--o{ SEQUENCE3 : "contains"
 
     PROJECT {
         string pKey "PROJECT#PR00020"
