@@ -100,6 +100,9 @@ the secrets. Delete them when you no longer need them.
 
 ---
 
+## Demo
+- d34xak95d0rv73.cloudfront.net
+
 ## Troubleshooting
 
 | Problem | Fix |
